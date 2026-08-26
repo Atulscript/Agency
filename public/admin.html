@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CentaurWeb</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plus Jakarta Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030303;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #343536;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4500;
+        }
+    </style>
+</head>
+<body class="text-[#D7DADC] min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <nav class="border-b border-[#343536] bg-[#1A1A1B]/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] text-2xl"></i>
+                        <span class="font-bold text-xl tracking-tight text-white">Centaur<span class="text-[#FF4500]">Web</span> <span class="text-xs text-red-500 font-bold uppercase tracking-widest pl-2">Admin</span></span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="logout-btn" class="text-slate-400 hover:text-white text-sm font-medium transition">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <div id="admin-spinner" class="text-center py-24 space-y-4">
+            <div class="w-12 h-12 border-4 border-[#FF4500] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p class="text-slate-400 text-sm">Verifying administrator access...</p>
+        </div>
+
+        <div id="admin-denied" class="text-center py-24 space-y-4 hidden">
+            <div class="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center text-3xl mx-auto">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white">Access Denied</h3>
+            <p class="text-slate-400 text-sm max-w-md mx-auto">You do not have administrator permissions. Please log in using the admin demo credentials.</p>
+            <a href="/login" class="inline-block bg-[#FF4500] hover:bg-[#E03D00] text-white px-6 py-2.5 rounded-xl text-sm font-bold transition">Go to Login</a>
+        </div>
+
+        <div id="admin-content" class="space-y-8 hidden">
+            <div class="border-b border-[#343536] pb-6">
+                <h2 class="text-3xl font-extrabold text-white">Developer Cockpit</h2>
+                <p class="text-slate-400 text-sm mt-1">Deploy static landing pages to client GitHub Pages, update project statuses, and resolve tickets.</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="flex space-x-4 border-b border-[#343536] pb-3 text-sm">
+                <button id="tab-projects-btn" class="text-white font-bold border-b-2 border-[#FF4500] pb-3 transition px-2">Active Projects</button>
+                <button id="tab-tickets-btn" class="text-slate-400 hover:text-white pb-3 transition px-2">Client Tickets</button>
+            </div>
+
+            <!-- PROJECTS PANEL -->
+            <div id="projects-panel" class="space-y-6">
+                <h3 class="text-xl font-bold text-white">Manage Projects</h3>
+                <div id="projects-list-container" class="space-y-6">
+                    <!-- Dynamic Projects List -->
+                </div>
+            </div>
+
+            <!-- TICKETS PANEL -->
+            <div id="tickets-panel" class="space-y-6 hidden">
+                <h3 class="text-xl font-bold text-white">Support & Revisions Queue</h3>
+                <div id="tickets-list-container" class="space-y-4">
+                    <!-- Dynamic Tickets List -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Deploy Modal -->
+    <div id="deploy-modal" class="fixed inset-0 bg-[#030303]/80 backdrop-blur flex items-center justify-center z-50 hidden">
+        <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 max-w-lg w-full space-y-6">
+            <div>
+                <h3 class="text-xl font-bold text-white">Deploy Static Landing Page</h3>
+                <p class="text-slate-400 text-xs mt-1">Assembles and deploys static files directly to client's GitHub pages.</p>
+            </div>
+
+            <form id="deploy-form" class="space-y-4">
+                <input type="hidden" id="deploy-project-id">
+                
+                <div class="space-y-1">
+                    <label for="github-token" class="text-2xs font-semibold text-slate-400 uppercase tracking-wider">GitHub Personal Access Token (PAT)</label>
+                    <input type="password" id="github-token" required placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF4500] transition">
+                </div>
+
+                <div class="space-y-1">
+                    <label for="repo-name" class="text-2xs font-semibold text-slate-400 uppercase tracking-wider">GitHub Repository Name</label>
+                    <input type="text" id="repo-name" required placeholder="e.g. my-client-site"
+                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF4500] transition">
+                </div>
+
+                <div class="space-y-1">
+                    <label for="html-content" class="text-2xs font-semibold text-slate-400 uppercase tracking-wider">Assembled HTML Code Bundle</label>
+                    <textarea id="html-content" rows="6" required placeholder="<!DOCTYPE html><html>...</html>"
+                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2.5 text-xs font-mono text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="close-modal-btn" class="bg-[#343536] hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition">Cancel</button>
+                    <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Start Deploy</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#343536] bg-[#030303] py-6 text-center text-xs text-slate-500">
+        &copy; 2026 CentaurWeb. Admin Dashboard.
+    </footer>
+
+    <!-- JS SDK -->
+    <script type="module">
+        import { 
+            auth, db, signOut,
+            doc, getDoc, collection, getDocs, updateDoc, onSnapshot
+        } from "./firebase-config.js";
+
+        const API_URL = "/api";
+
+        // Auth Check
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = "/login";
+                return;
+            }
+
+            // Verify admin privilege in Firestore doc
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (!userDoc.exists() || userDoc.data().role !== "admin") {
+                document.getElementById("admin-spinner").classList.add("hidden");
+                document.getElementById("admin-denied").classList.remove("hidden");
+                return;
+            }
+
+            document.getElementById("admin-spinner").classList.add("hidden");
+            document.getElementById("admin-content").classList.remove("hidden");
+            await loadAdminPortal();
+        });
+
+        // Handle Logout
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            signOut(auth).then(() => {
+                window.location.href = "/login";
+            });
+        });
+
+        // Tabs setup
+        const tabProjectsBtn = document.getElementById("tab-projects-btn");
+        const tabTicketsBtn = document.getElementById("tab-tickets-btn");
+        const projectsPanel = document.getElementById("projects-panel");
+        const ticketsPanel = document.getElementById("tickets-panel");
+
+        tabProjectsBtn.addEventListener("click", () => {
+            tabProjectsBtn.className = "text-white font-bold border-b-2 border-[#FF4500] pb-3 transition px-2";
+            tabTicketsBtn.className = "text-slate-400 hover:text-white pb-3 transition px-2";
+            projectsPanel.classList.remove("hidden");
+            ticketsPanel.classList.add("hidden");
+        });
+
+        tabTicketsBtn.addEventListener("click", () => {
+            tabTicketsBtn.className = "text-white font-bold border-b-2 border-[#FF4500] pb-3 transition px-2";
+            tabProjectsBtn.className = "text-slate-400 hover:text-white pb-3 transition px-2";
+            ticketsPanel.classList.remove("hidden");
+            projectsPanel.classList.add("hidden");
+        });
+
+        // Load data
+        async function loadAdminPortal() {
+            // Load projects in real-time
+            onSnapshot(collection(db, "projects"), async (snapshot) => {
+                const projects = [];
+                snapshot.forEach(doc => {
+                    projects.push({ id: doc.id, ...doc.data() });
+                });
+                await renderProjects(projects);
+                await renderAllTickets(projects);
+            });
+        }
+
+        // Render projects
+        async function renderProjects(projects) {
+            const listDiv = document.getElementById("projects-list-container");
+            let html = "";
+
+            for (const p of projects) {
+                // Fetch user data
+                const userDoc = await getDoc(doc(db, "users", p.userId));
+                const userData = userDoc.exists() ? userDoc.data() : { name: "Unknown Client", email: "N/A" };
+
+                // Parse specs fields
+                const homepage = p.homepage_details ? JSON.parse(p.homepage_details) : {};
+                const styling = p.styling_references ? JSON.parse(p.styling_references) : {};
+
+                html += `
+                    <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-4">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-[#343536] pb-3 space-y-2 md:space-y-0">
+                            <div>
+                                <h4 class="font-bold text-white text-md">${p.name}</h4>
+                                <p class="text-xs text-slate-400">Client: <strong>${userData.name}</strong> (${userData.email})</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs text-slate-500 font-medium mr-1">Status:</span>
+                                <span class="px-2.5 py-1 text-2xs font-bold rounded-full bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/25 uppercase">${p.status}</span>
+                            </div>
+                        </div>
+
+                        <!-- Info Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="space-y-2">
+                                <div><span class="text-slate-500 uppercase text-2xs block">Hero Headline:</span> <span class="text-white font-medium">${homepage.hero_headline || "N/A"}</span></div>
+                                <div><span class="text-slate-500 uppercase text-2xs block">Theme Preference:</span> <span class="text-white font-medium capitalize">${styling.theme || "N/A"}</span></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div><span class="text-slate-500 uppercase text-2xs block">Reference Site:</span> <span class="text-white font-medium">${styling.reference_website || "N/A"}</span></div>
+                                <div>
+                                    <span class="text-slate-500 uppercase text-2xs block">Preview Link:</span>
+                                    ${p.github_repo_url ? `<a href="${p.github_repo_url}" target="_blank" class="text-[#FF4500] hover:underline"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>View Live Page</a>` : '<span class="text-slate-400">No staging preview yet</span>'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Developer prompt -->
+                        ${p.developer_prompt ? `
+                        <div class="bg-[#030303] border border-[#343536] rounded-xl p-4 space-y-2">
+                            <span class="text-2xs font-bold text-[#FF4500] uppercase tracking-wider block">Generated Developer prompt (Copy-Paste)</span>
+                            <textarea readonly class="w-full bg-transparent text-slate-300 font-mono text-2xs focus:outline-none resize-y h-24" onclick="this.select()">${p.developer_prompt}</textarea>
+                        </div>` : ''}
+
+                        <!-- Action controls -->
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <form class="flex items-center space-x-2" onsubmit="updateProjectStatus(event, '${p.id}')">
+                                <select name="status" class="bg-[#030303] border border-[#343536] rounded-lg text-xs px-2 py-1.5 focus:outline-none focus:border-[#FF4500] text-slate-200">
+                                    <option value="Requirements Gathering" ${p.status === 'Requirements Gathering' ? 'selected' : ''}>Requirements Gathering</option>
+                                    <option value="In Progress" ${p.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                    <option value="Review" ${p.status === 'Review' ? 'selected' : ''}>Review</option>
+                                    <option value="Completed" ${p.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                </select>
+                                <button type="submit" class="bg-[#343536] hover:bg-slate-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">Update Status</button>
+                            </form>
+
+                            <button onclick="openDeployModal('${p.id}', '${p.name.toLowerCase().replace(/ /g, '-')}')" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition flex items-center space-x-1">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>Deploy Static Code</span>
+                            </button>
+                        </div>
+                    </div>`;
+            }
+
+            listDiv.innerHTML = html || `<p class="text-sm text-slate-500 text-center py-6">No projects found in database.</p>`;
+        }
+
+        // Render all tickets
+        async function renderAllTickets(projects) {
+            const listDiv = document.getElementById("tickets-list-container");
+            let html = "";
+
+            for (const p of projects) {
+                // Fetch subcollection tickets
+                const snapshot = await getDocs(collection(db, "projects", p.id, "tickets"));
+                snapshot.forEach(doc => {
+                    const ticket = doc.data();
+                    const time = ticket.createdAt ? new Date(ticket.createdAt.seconds * 1000).toLocaleString() : "";
+                    html += `
+                        <div class="flex items-center justify-between bg-[#1A1A1B] border border-[#343536] p-4 rounded-xl">
+                            <div class="space-y-1">
+                                <span class="text-slate-500 text-2xs block">Project: <strong>${p.name}</strong> • ${time}</span>
+                                <h4 class="font-bold text-sm text-white">${ticket.title}</h4>
+                                <p class="text-xs text-slate-400">${ticket.description}</p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="px-2 py-1 text-2xs font-bold rounded ${ticket.status === 'Open' ? 'bg-yellow-500/10 text-yellow-500' : 'bg-green-500/10 text-green-500'}">
+                                    ${ticket.status}
+                                </span>
+                                ${ticket.status === 'Open' ? `
+                                <button onclick="resolveTicket('${p.id}', '${doc.id}')" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
+                                    Resolve
+                                </button>` : ''}
+                            </div>
+                        </div>`;
+                });
+            }
+
+            listDiv.innerHTML = html || `<p class="text-sm text-slate-500 text-center py-6">No support tickets in queue.</p>`;
+        }
+
+        // API caller
+        async function callAdminFunction(endpoint, body = {}) {
+            const token = await auth.currentUser.getIdToken();
+            const res = await fetch(`${API_URL}${endpoint}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(body)
+            });
+            return res.json();
+        }
+
+        // Action: Update project status
+        window.updateProjectStatus = async function(event, projectId) {
+            event.preventDefault();
+            const status = event.target.status.value;
+            const res = await callAdminFunction("/admin/update-status", { project_id: projectId, status });
+            if (res.error) alert(res.error);
+        };
+
+        // Action: Resolve ticket
+        window.resolveTicket = async function(projectId, ticketId) {
+            const res = await callAdminFunction("/admin/tickets/resolve", { project_id: projectId, ticket_id: ticketId });
+            if (res.error) alert(res.error);
+        };
+
+        // Modal triggers
+        const modal = document.getElementById("deploy-modal");
+        window.openDeployModal = function(projectId, repoNameSuggestion) {
+            document.getElementById("deploy-project-id").value = projectId;
+            document.getElementById("repo-name").value = repoNameSuggestion;
+            
+            // Set mock default template HTML for deployment preview
+            document.getElementById("html-content").value = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Completed landing page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center">
+    <div class="text-center space-y-4">
+        <h1 class="text-4xl font-extrabold text-[#FF4500]">Website Assembled Live!</h1>
+        <p class="text-slate-400">Custom build by CentaurWeb Human + AI platform.</p>
+    </div>
+</body>
+</html>`;
+            modal.classList.remove("hidden");
+        };
+
+        document.getElementById("close-modal-btn").addEventListener("click", () => {
+            modal.classList.add("hidden");
+        });
+
+        // Action: Deploy static files to GitHub Pages
+        document.getElementById("deploy-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const projectId = document.getElementById("deploy-project-id").value;
+            const token = document.getElementById("github-token").value;
+            const repo = document.getElementById("repo-name").value;
+            const html = document.getElementById("html-content").value;
+
+            modal.classList.add("hidden");
+            alert("Starting deployment process. This can take up to 30 seconds...");
+
+            const res = await callAdminFunction("/admin/deploy", {
+                project_id: projectId,
+                github_token: token,
+                repo_name: repo,
+                html_content: html
+            });
+
+            if (res.success) {
+                alert(`Successfully deployed to GitHub pages: ${res.url}`);
+            } else {
+                alert(`Deploy failed: ${res.error}`);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "api"
+      },
+      {
+        "source": "/project/**",
+        "function": "api"
+      },
+      {
+        "source": "/tickets/**",
+        "function": "api"
+      },
+      {
+        "source": "/admin/deploy",
+        "function": "api"
+      },
+      {
+        "source": "/admin/update-status",
+        "function": "api"
+      },
+      {
+        "source": "/admin/tickets/resolve",
+        "function": "api"
+      },
+      {
+        "source": "/simulate-payment",
+        "function": "api"
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

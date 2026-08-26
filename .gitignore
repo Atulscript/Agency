@@ -1,0 +1,9 @@
+node_modules/
+functions/node_modules/
+.firebase/
+.firebaserc
+agency.db
+database.db
+*.log
+.env
+.vscode/

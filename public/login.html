@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CentaurWeb</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plus Jakarta Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030303;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #343536;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4500;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <nav class="border-b border-[#343536] bg-[#030303] py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-2 group">
+                <div class="w-8 h-8 rounded-lg bg-[#FF4500] flex items-center justify-center text-white font-extrabold text-sm transition group-hover:scale-105">
+                    C
+                </div>
+                <span class="font-extrabold text-white text-lg tracking-tight">Centaur<span class="text-[#FF4500]">Web</span></span>
+            </a>
+            <a href="/" class="text-slate-400 hover:text-white transition text-sm font-semibold">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl font-bold text-white">Client Portal Login</h2>
+                <p class="text-slate-400 text-sm">Access billing, onboarding, and issue tickets.</p>
+            </div>
+
+            <!-- Error Notification -->
+            <div id="error-box" class="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl text-sm flex items-center hidden">
+                <i class="fa-solid fa-triangle-exclamation mr-3 text-lg"></i>
+                <span id="error-text"></span>
+            </div>
+
+            <!-- Email & Password Form -->
+            <form id="login-form" class="space-y-4">
+                <div class="space-y-1">
+                    <label for="email" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Email Address</label>
+                    <input type="email" id="email" required
+                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                </div>
+                <div class="space-y-1">
+                    <label for="password" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Password</label>
+                    <input type="password" id="password" required
+                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                </div>
+                <button type="submit"
+                    class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-[#FF4500]/20">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="flex items-center justify-between text-xs text-slate-500">
+                <div class="h-px bg-[#343536] flex-grow"></div>
+                <span class="px-3 uppercase tracking-wider font-semibold">Or continue with</span>
+                <div class="h-px bg-[#343536] flex-grow"></div>
+            </div>
+
+            <!-- Google Social Login Button -->
+            <button id="google-login-btn"
+                class="w-full bg-[#1A1A1B] hover:bg-[#272729] text-white border border-[#343536] font-semibold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-sm">
+                <i class="fa-brands fa-google text-[#FF4500] text-lg"></i>
+                <span>Sign In with Google</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#343536] bg-[#030303] py-6 text-center text-xs text-slate-500">
+        &copy; 2026 CentaurWeb. All rights reserved. Full ownership & No hidden charges.
+    </footer>
+
+    <!-- Firebase Integration Logic -->
+    <script type="module">
+        import { 
+            auth, db, googleProvider, signInWithPopup, signInWithEmailAndPassword,
+            doc, getDoc, setDoc
+        } from "./firebase-config.js";
+
+        // Handle Email/Password Login
+        document.getElementById("login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorBox = document.getElementById("error-box");
+            const errorText = document.getElementById("error-text");
+
+            errorBox.classList.add("hidden");
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "/dashboard";
+            } catch (err) {
+                errorBox.classList.remove("hidden");
+                errorText.innerText = err.message;
+            }
+        });
+
+        // Handle Google Social Login
+        document.getElementById("google-login-btn").addEventListener("click", async () => {
+            const errorBox = document.getElementById("error-box");
+            const errorText = document.getElementById("error-text");
+            errorBox.classList.add("hidden");
+
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                const user = result.user;
+                
+                // Write user documentation dynamically if first time login
+                const userDocRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userDocRef);
+                
+                if (!userSnap.exists()) {
+                    await setDoc(userDocRef, {
+                        email: user.email,
+                        name: user.displayName,
+                        role: "client",
+                        createdAt: new Date()
+                    });
+
+                    // Automatically setup a pending project on first Google sign-in
+                    const projectRef = doc(db, "projects", `project_${user.uid}`);
+                    await setDoc(projectRef, {
+                        userId: user.uid,
+                        name: "My New Website",
+                        status: "Payment Pending",
+                        active: true,
+                        revisions_left: 2,
+                        createdAt: new Date()
+                    });
+                }
+                
+                window.location.href = "/dashboard";
+            } catch (err) {
+                errorBox.classList.remove("hidden");
+                errorText.innerText = err.message;
+            }
+        });
+    </script>
+</body>
+</html>

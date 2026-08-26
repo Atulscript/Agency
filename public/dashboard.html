@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - CentaurWeb</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plus Jakarta Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030303;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #343536;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4500;
+        }
+    </style>
+</head>
+<body class="text-[#D7DADC] min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <nav class="border-b border-[#343536] bg-[#1A1A1B]/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] text-2xl"></i>
+                        <span class="font-bold text-xl tracking-tight text-white">Centaur<span class="text-[#FF4500]">Web</span></span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="user-display" class="text-slate-400 text-sm hidden md:inline"></span>
+                    <button id="logout-btn" class="text-slate-400 hover:text-white text-sm font-medium transition">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Body -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <div id="loading-spinner" class="text-center py-24 space-y-4">
+            <div class="w-12 h-12 border-4 border-[#FF4500] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p class="text-slate-400 text-sm">Loading your project portal...</p>
+        </div>
+
+        <div id="dashboard-content" class="space-y-8 hidden">
+            
+            <!-- Welcome Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[#343536] pb-6 space-y-4 md:space-y-0">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-white">Your Development Cockpit</h2>
+                    <p class="text-slate-400 text-sm mt-1">Track requirements progress, request revisions, and manage issue tickets.</p>
+                </div>
+                
+                <!-- Status Badge -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-slate-500 font-semibold uppercase text-xs">Current Project Status:</span>
+                    <span id="project-status" class="px-3 py-1.5 rounded-full text-xs font-bold bg-[#FF4500]/15 text-[#FF4500] border border-[#FF4500]/25 uppercase tracking-wider animate-pulse">
+                        Payment Pending
+                    </span>
+                </div>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Project Details & Actions -->
+                <div class="lg:col-span-2 space-y-8">
+                    
+                    <!-- Payment Pending State -->
+                    <div id="payment-pending-card" class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 text-center space-y-6 hidden">
+                        <div class="w-16 h-16 bg-yellow-500/10 text-yellow-500 rounded-full flex items-center justify-center text-3xl mx-auto">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-2xl font-bold text-white">Payment Required</h3>
+                            <p class="text-slate-400 max-w-md mx-auto">
+                                To unlock the AI onboarding assistant and request your website setup, please complete your project setup payment.
+                            </p>
+                        </div>
+                        <button id="simulate-payment-btn" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-[#FF4500]/10">
+                            Simulate Payment ($99)
+                        </button>
+                    </div>
+
+                    <!-- Active Project Specs -->
+                    <div id="active-project-card" class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 space-y-6 hidden">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">Project Details & Requirements</h3>
+                                <p class="text-slate-400 text-sm mt-1">Submit styling references, references, and consult the AI onboarding bot.</p>
+                            </div>
+                            <a href="/onboarding" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span id="onboarding-btn-text">Start Onboarding</span>
+                            </a>
+                        </div>
+
+                        <div class="border-t border-[#343536] pt-6 grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-slate-500 font-semibold block uppercase text-xs">Website Name</span>
+                                <span id="proj-name" class="text-white mt-1 block font-medium">My New Website</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 font-semibold block uppercase text-xs">Staging Preview</span>
+                                <span id="proj-preview" class="text-white mt-1 block font-medium">Not assembled yet</span>
+                            </div>
+                            <div id="download-zip-container" class="col-span-2 md:col-span-1 hidden">
+                                <span class="text-slate-500 font-semibold block uppercase text-xs mb-1">Source Code Files</span>
+                                <button id="download-zip-btn" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition inline-flex items-center space-x-1.5 shadow-lg shadow-[#FF4500]/10">
+                                    <i class="fa-solid fa-file-zipper"></i>
+                                    <span>Download Website (.ZIP)</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-[#030303] border border-[#343536] rounded-xl p-4 text-xs text-slate-400">
+                            <span class="font-bold text-[#FF4500] uppercase tracking-wider block mb-1">
+                                <i class="fa-solid fa-server mr-1"></i> Hosting & Deployment Setup
+                            </span>
+                            We do not host your website on our servers. You have **100% full code ownership**. Once completed, download your code package ZIP file. You can host it for free on your own **Render.com**, Netlify, or Vercel account. Our developers provide complete configuration support to map your custom domain and SSL keys free of charge.
+                        </div>
+                    </div>
+
+                    <!-- Client Revisions & Approvals Panel -->
+                    <div id="revisions-panel" class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6 hidden">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-arrows-rotate text-[#FF4500] mr-2"></i> Client Review & Approval</h3>
+                            <span id="revisions-left-badge" class="px-2.5 py-1 text-2xs bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/20 rounded font-semibold uppercase"></span>
+                        </div>
+
+                        <!-- Review Actions -->
+                        <div id="review-actions-block" class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#030303] border border-[#343536] p-6 rounded-2xl hidden">
+                            <div class="space-y-3 text-left">
+                                <h4 class="font-bold text-white text-sm">Approve Design</h4>
+                                <p class="text-slate-400 text-2xs leading-relaxed">If you are 100% satisfied with the work, accept the completion to finalise domain mapping and download package files.</p>
+                                <button id="accept-project-btn" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                                    <i class="fa-solid fa-circle-check mr-1"></i> Accept Completion
+                                </button>
+                            </div>
+
+                            <div class="space-y-3 text-left border-t md:border-t-0 md:border-l border-[#343536] pt-4 md:pt-0 md:pl-6">
+                                <h4 class="font-bold text-white text-sm">Request Revision</h4>
+                                <div id="revision-form-container">
+                                    <p class="text-slate-400 text-2xs leading-relaxed mb-2">Describe modifications needed (spacing, colors, typos). Atul Kumar will implement your feedback.</p>
+                                    <form id="revision-form" class="space-y-2">
+                                        <textarea id="revision-feedback" required placeholder="Describe changes needed..." rows="2"
+                                            class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-2xs text-white focus:outline-none focus:border-[#FF4500]"></textarea>
+                                        <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-bold px-4 py-2 rounded-lg transition">
+                                            Submit Revision Request
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Completed Actions -->
+                        <div id="completed-actions-block" class="bg-[#030303] border border-[#343536] p-6 rounded-2xl space-y-4 hidden">
+                            <h4 class="font-bold text-white text-sm flex items-center"><i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] mr-2"></i> Request Post-Launch Changes</h4>
+                            <p class="text-slate-400 text-2xs leading-relaxed">Since the project is finalized, any new feature edits or text modifications will be created as post-launch change tickets.</p>
+                            <form id="request-change-form" class="space-y-3">
+                                <textarea id="change-description" required placeholder="Describe what you want to change..." rows="2"
+                                    class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-2xs text-white focus:outline-none focus:border-[#FF4500]"></textarea>
+                                <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-bold px-5 py-2.5 rounded-xl transition flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                    <span>Request Post-Launch Change</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Tickets -->
+                    <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                        <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-circle-question text-[#FF4500] mr-2"></i> Support Tickets</h3>
+                        
+                        <form id="create-ticket-form" class="space-y-4 bg-[#030303] border border-[#343536] p-4 rounded-2xl">
+                            <h4 class="text-sm font-bold text-white">Create a New Issue Ticket</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" id="ticket-title" placeholder="Issue Title (e.g. Change logo alignment)" required
+                                    class="bg-[#1A1A1B] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500]">
+                                <input type="text" id="ticket-desc" placeholder="Description of details" required
+                                    class="bg-[#1A1A1B] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500]">
+                            </div>
+                            <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+                                Submit Ticket
+                            </button>
+                        </form>
+
+                        <div id="tickets-list" class="space-y-2 max-h-60 overflow-y-auto">
+                            <!-- Loaded Dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Side: Sidebar Billing Info -->
+                <div class="space-y-8">
+                    <!-- New Project card (If completed) -->
+                    <div id="new-project-card" class="bg-gradient-to-r from-red-950/20 to-slate-900/40 border border-[#343536] rounded-3xl p-6 space-y-4 hidden">
+                        <div class="space-y-1">
+                            <h4 class="font-bold text-white text-md flex items-center"><i class="fa-solid fa-rocket text-[#FF4500] mr-2"></i> Website Completed!</h4>
+                            <p class="text-slate-400 text-xs">Congratulations! Your website is launched. Do you need another custom landing page built?</p>
+                        </div>
+                        <button id="start-new-project-btn" class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white px-5 py-3 rounded-xl text-xs font-bold transition shadow-lg shadow-[#FF4500]/20 flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Start A New Project</span>
+                        </button>
+                    </div>
+
+                    <!-- Invoices list -->
+                    <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-receipt text-[#FF4500] mr-2"></i> Invoices & Bills</h3>
+                        <div id="invoices-list" class="space-y-4">
+                            <!-- Loaded Dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#343536] bg-[#030303] py-6 text-center text-xs text-slate-500">
+        &copy; 2026 CentaurWeb. All rights reserved. Full ownership & No hidden charges.
+    </footer>
+
+    <!-- JS Logic -->
+    <script type="module">
+        import { 
+            auth, db, signOut,
+            doc, getDoc, collection, query, where, limit, getDocs, onSnapshot, addDoc, updateDoc, serverTimestamp
+        } from "./firebase-config.js";
+
+        // Constants
+        const API_URL = "/api"; // Rewritten routes go to Firebase functions
+        let activeProjectId = null;
+
+        // Verify Authentication
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = "/login";
+                return;
+            }
+
+            document.getElementById("user-display").innerText = `Logged in as ${user.displayName || user.email}`;
+            await loadDashboardData(user.uid);
+        });
+
+        // Handle Logout
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            signOut(auth).then(() => {
+                window.location.href = "/login";
+            });
+        });
+
+        // Load dashboard elements
+        async function loadDashboardData(userId) {
+            const projectsRef = collection(db, "projects");
+            const q = query(projectsRef, where("userId", "==", userId), where("active", "==", true), limit(1));
+            const querySnapshot = await getDocs(q);
+
+            document.getElementById("loading-spinner").classList.add("hidden");
+            document.getElementById("dashboard-content").classList.remove("hidden");
+
+            if (querySnapshot.empty) {
+                // User has no active project, create one in Payment Pending state
+                const newProjectRef = await addDoc(collection(db, "projects"), {
+                    userId: userId,
+                    name: "My New Website",
+                    status: "Payment Pending",
+                    active: true,
+                    revisions_left: 2,
+                    createdAt: serverTimestamp()
+                });
+                activeProjectId = newProjectRef.id;
+                renderProjectState({ id: activeProjectId, name: "My New Website", status: "Payment Pending", revisions_left: 2 });
+            } else {
+                const projectDoc = querySnapshot.docs[0];
+                activeProjectId = projectDoc.id;
+                
+                // Set up snapshot listener to dynamically update page state on changes
+                onSnapshot(doc(db, "projects", activeProjectId), (snapshot) => {
+                    if (snapshot.exists()) {
+                        renderProjectState({ id: snapshot.id, ...snapshot.data() });
+                    }
+                });
+
+                // Set up listener for tickets
+                onSnapshot(collection(db, "projects", activeProjectId, "tickets"), (snapshot) => {
+                    renderTickets(snapshot);
+                });
+
+                // Set up listener for invoices
+                onSnapshot(collection(db, "projects", activeProjectId, "invoices"), (snapshot) => {
+                    renderInvoices(snapshot);
+                });
+            }
+        }
+
+        // Render project state details
+        function renderProjectState(project) {
+            const statusBadge = document.getElementById("project-status");
+            statusBadge.innerText = project.status;
+
+            if (project.status === "Payment Pending") {
+                document.getElementById("payment-pending-card").classList.remove("hidden");
+                document.getElementById("active-project-card").classList.add("hidden");
+                document.getElementById("revisions-panel").classList.add("hidden");
+                document.getElementById("new-project-card").classList.add("hidden");
+            } else {
+                document.getElementById("payment-pending-card").classList.add("hidden");
+                document.getElementById("active-project-card").classList.remove("hidden");
+                
+                document.getElementById("proj-name").innerText = project.name;
+                
+                const previewSpan = document.getElementById("proj-preview");
+                if (project.github_repo_url) {
+                    previewSpan.innerHTML = `<a href="${project.github_repo_url}" target="_blank" class="text-[#FF4500] hover:underline"><i class="fa-solid fa-arrow-up-right-from-square mr-1 text-xs"></i> View Preview</a>`;
+                } else {
+                    previewSpan.innerText = "Not assembled yet";
+                }
+
+                // Onboarding text update
+                const onboardingBtn = document.getElementById("onboarding-btn-text");
+                onboardingBtn.innerText = project.status === "Requirements Gathering" ? "Start Onboarding" : "View/Update Specs";
+
+                // Revisions Badge
+                document.getElementById("revisions-left-badge").innerText = `Revisions Left: ${project.revisions_left}`;
+
+                // Handle conditional panels based on status
+                if (project.status === "Review") {
+                    document.getElementById("revisions-panel").classList.remove("hidden");
+                    document.getElementById("review-actions-block").classList.remove("hidden");
+                    document.getElementById("completed-actions-block").classList.add("hidden");
+                    document.getElementById("new-project-card").classList.add("hidden");
+                    document.getElementById("download-zip-container").classList.add("hidden");
+
+                    if (project.revisions_left <= 0) {
+                        document.getElementById("revision-form-container").innerHTML = `<p class="text-red-400 text-2xs leading-relaxed">No revisions remaining. Reach out to developer via Support tickets for minor queries.</p>`;
+                    }
+                } else if (project.status === "Completed") {
+                    document.getElementById("revisions-panel").classList.remove("hidden");
+                    document.getElementById("review-actions-block").classList.add("hidden");
+                    document.getElementById("completed-actions-block").classList.remove("hidden");
+                    document.getElementById("new-project-card").classList.remove("hidden");
+                    document.getElementById("download-zip-container").classList.remove("hidden");
+                } else {
+                    document.getElementById("revisions-panel").classList.add("hidden");
+                    document.getElementById("new-project-card").classList.add("hidden");
+                    document.getElementById("download-zip-container").classList.add("hidden");
+                }
+            }
+        }
+
+        // Render support tickets list
+        function renderTickets(snapshot) {
+            const listDiv = document.getElementById("tickets-list");
+            let html = "";
+            
+            snapshot.forEach((doc) => {
+                const ticket = doc.data();
+                const time = ticket.createdAt ? new Date(ticket.createdAt.seconds * 1000).toLocaleString() : "";
+                html += `
+                    <div class="flex items-center justify-between bg-[#030303] border border-[#343536] p-4 rounded-xl">
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-500">${time}</span>
+                            <h4 class="font-bold text-sm text-white">${ticket.title}</h4>
+                            <p class="text-xs text-slate-400">${ticket.description}</p>
+                        </div>
+                        <span class="px-2 py-1 text-2xs font-bold rounded ${ticket.status === 'Open' ? 'bg-yellow-500/10 text-yellow-500' : 'bg-green-500/10 text-green-500'}">
+                            ${ticket.status}
+                        </span>
+                    </div>`;
+            });
+
+            listDiv.innerHTML = html || `<p class="text-sm text-slate-500 text-center py-4">No support tickets created yet.</p>`;
+        }
+
+        // Render invoices list
+        function renderInvoices(snapshot) {
+            const listDiv = document.getElementById("invoices-list");
+            let html = "";
+            let count = 1001;
+
+            snapshot.forEach((doc) => {
+                const inv = doc.data();
+                html += `
+                    <div class="flex justify-between items-center text-sm border-b border-[#343536] pb-3">
+                        <div>
+                            <span class="block font-medium text-white">Project Setup & Design</span>
+                            <span class="text-slate-500 text-xs">Inv #CW-${count++}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-white">$${inv.amount}</span>
+                            <span class="text-2xs font-bold text-green-500">PAID</span>
+                        </div>
+                    </div>`;
+            });
+
+            // Default active hosting row
+            html += `
+                <div class="flex justify-between items-center text-sm">
+                    <div>
+                        <span class="block font-medium text-white">Static Web Hosting Setup</span>
+                        <span class="text-slate-500 text-xs">Subscription</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-bold text-[#FF4500]">FREE</span>
+                        <span class="text-2xs font-bold text-green-500">ACTIVE</span>
+                    </div>
+                </div>`;
+
+            listDiv.innerHTML = html;
+        }
+
+        // API Caller Helper (includes Bearer Token verification)
+        async function callCloudFunction(endpoint, method = "POST", body = {}) {
+            const token = await auth.currentUser.getIdToken();
+            const res = await fetch(`${API_URL}${endpoint}`, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(body)
+            });
+            return res.json();
+        }
+
+        // Action: Simulate Payment
+        document.getElementById("simulate-payment-btn").addEventListener("click", async () => {
+            const res = await callCloudFunction("/simulate-payment");
+            if (res.error) alert(res.error);
+        });
+
+        // Action: Submit Ticket
+        document.getElementById("create-ticket-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("ticket-title").value;
+            const description = document.getElementById("ticket-desc").value;
+
+            // Write ticket directly to Firestore subcollection (faster, free)
+            await addDoc(collection(db, "projects", activeProjectId, "tickets"), {
+                title,
+                description,
+                status: "Open",
+                createdAt: serverTimestamp()
+            });
+
+            document.getElementById("create-ticket-form").reset();
+        });
+
+        // Action: Submit Revision Request
+        document.getElementById("revision-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const feedback = document.getElementById("revision-feedback").value;
+            const res = await callCloudFunction("/project/revision", "POST", { feedback });
+            if (res.success) {
+                document.getElementById("revision-form").reset();
+            } else {
+                alert(res.error || "Failed to submit revision request.");
+            }
+        });
+
+        // Action: Accept Completion
+        document.getElementById("accept-project-btn").addEventListener("click", async () => {
+            const res = await callCloudFunction("/project/accept");
+            if (res.error) alert(res.error);
+        });
+
+        // Action: Request Post-Launch Change
+        document.getElementById("request-change-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const desc = document.getElementById("change-description").value;
+            const res = await callCloudFunction("/project/request-change", "POST", { change_description: desc });
+            if (res.success) {
+                document.getElementById("request-change-form").reset();
+            } else {
+                alert(res.error || "Failed to request changes.");
+            }
+        });
+
+        // Action: Start New Project
+        document.getElementById("start-new-project-btn").addEventListener("click", async () => {
+            const res = await callCloudFunction("/project/new");
+            if (res.error) alert(res.error);
+        });
+
+        // Action: Download ZIP
+        document.getElementById("download-zip-btn").addEventListener("click", async () => {
+            const token = await auth.currentUser.getIdToken();
+            window.location.href = `${API_URL}/project/download-zip?token=${token}`;
+        });
+    </script>
+</body>
+</html>

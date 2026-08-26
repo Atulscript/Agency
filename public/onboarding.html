@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Onboarding - CentaurWeb</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plus Jakarta Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030303;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #343536;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4500;
+        }
+    </style>
+</head>
+<body class="text-[#D7DADC] min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <nav class="border-b border-[#343536] bg-[#1A1A1B]/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] text-2xl"></i>
+                        <span class="font-bold text-xl tracking-tight text-white">Centaur<span class="text-[#FF4500]">Web</span></span>
+                    </a>
+                </div>
+                <a href="/dashboard" class="text-slate-400 hover:text-white transition text-sm font-semibold">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
+        <div id="loading-spinner" class="text-center py-24 space-y-4">
+            <div class="w-12 h-12 border-4 border-[#FF4500] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p class="text-slate-400 text-sm">Loading onboarding specifications...</p>
+        </div>
+
+        <div id="onboarding-content" class="grid grid-cols-1 lg:grid-cols-3 gap-8 hidden">
+            
+            <!-- Left Side: Questionnaire Forms -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 md:p-8 space-y-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Website Questionnaire</h2>
+                        <p class="text-slate-400 text-sm mt-1">Specify design details. Leave fields empty if you want our AI copywriter to draft options.</p>
+                    </div>
+
+                    <form id="onboarding-form" class="space-y-6">
+                        
+                        <!-- Core Brand Name -->
+                        <div class="space-y-2">
+                            <label for="website-name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Website Name / Brand Title</label>
+                            <input type="text" id="website-name" required placeholder="e.g. Atul Dental Clinic"
+                                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                        </div>
+
+                        <!-- Menu Navigation -->
+                        <div class="space-y-2">
+                            <label for="menu-items" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Menu / Navigation Links</label>
+                            <input type="text" id="menu-items" placeholder="e.g. Home, Services, Pricing, About, Contact (comma separated)"
+                                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                        </div>
+
+                        <!-- Hero Section Details -->
+                        <div class="space-y-4 border-t border-[#343536] pt-6">
+                            <h3 class="text-lg font-bold text-white">Hero & Landing Copy</h3>
+                            
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <label for="hero-headline" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Hero Main Headline</label>
+                                    <button type="button" class="text-xs text-[#FF4500] hover:underline flex items-center space-x-1" onclick="suggestCopy('hero-headline')">
+                                        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>
+                                        <span>Suggest Headlines</span>
+                                    </button>
+                                </div>
+                                <input type="text" id="hero-headline" placeholder="e.g. Painless Dental Treatments For Healthy Smiles"
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                                <div id="hero-headline-suggestions" class="flex flex-wrap gap-2 pt-1 hidden"></div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="hero-cta" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Hero CTA Button Action Text</label>
+                                <input type="text" id="hero-cta" placeholder="e.g. Book Appointment Now"
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="middle-content" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Core Service Pitch / Body Paragraph</label>
+                                <textarea id="middle-content" rows="3" placeholder="Provide a brief summary of what services you offer..."
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Styling preferences -->
+                        <div class="space-y-4 border-t border-[#343536] pt-6">
+                            <h3 class="text-lg font-bold text-white">Visual Design & References</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label for="styling-theme" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Design Styling Theme</label>
+                                    <select id="styling-theme"
+                                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                                        <option value="dark">Reddit Dark Mode (Modern Charcoal & Red Accents)</option>
+                                        <option value="light">Premium Light mode (Clean white background & indigo accents)</option>
+                                        <option value="minimalist">Minimalist / Clean Monochromatic</option>
+                                        <option value="cyberpunk">Cyberpunk / High-Contrast Neon Accents</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="reference-website" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Reference Website URL</label>
+                                    <input type="text" id="reference-website" placeholder="e.g. apple.com, stripe.com"
+                                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other page contents -->
+                        <div class="space-y-4 border-t border-[#343536] pt-6">
+                            <h3 class="text-lg font-bold text-white">Subpage Contents</h3>
+
+                            <div class="space-y-2">
+                                <label for="home-content" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Home Section Description</label>
+                                <textarea id="home-content" rows="2" placeholder="Detail home page services..."
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="about-content" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">About Us / Founder Story</label>
+                                <textarea id="about-content" rows="2" placeholder="Brief history or bios..."
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="team-content" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Team / dev bios</label>
+                                <textarea id="team-content" rows="2" placeholder="Provide info for the team block..."
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-[#343536] flex items-center justify-between">
+                            <button type="submit"
+                                class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-8 py-3 rounded-2xl font-bold transition shadow-lg shadow-[#FF4500]/20 flex items-center space-x-2">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Save & Submit Requirements</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Side: AI Assistant Chat Sidebar -->
+            <div class="space-y-6">
+                <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 flex flex-col h-[650px] justify-between">
+                    
+                    <!-- Chat Header -->
+                    <div class="border-b border-[#343536] pb-4 space-y-1">
+                        <h3 class="font-bold text-lg text-white flex items-center">
+                            <i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] mr-2"></i>
+                            <span>AI Onboarding Bot</span>
+                        </h3>
+                        <p class="text-slate-400 text-2xs">Ask copy options, layouts suggestions, or coordinate edits.</p>
+                    </div>
+
+                    <!-- Message Feed -->
+                    <div id="chat-messages" class="flex-grow overflow-y-auto space-y-4 py-4 pr-1">
+                        <!-- Loaded dynamically -->
+                    </div>
+
+                    <!-- Chat input Form -->
+                    <form id="chat-input-form" class="border-t border-[#343536] pt-4 flex space-x-2">
+                        <input type="text" id="chat-input" placeholder="Ask AI onboarding bot..." required
+                            class="flex-grow bg-[#030303] border border-[#343536] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF4500]">
+                        <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-4 rounded-xl text-xs font-bold transition flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#343536] bg-[#030303] py-6 text-center text-xs text-slate-500">
+        &copy; 2026 CentaurWeb. All rights reserved. Full ownership & No hidden charges.
+    </footer>
+
+    <!-- JS Logic -->
+    <script type="module">
+        import { 
+            auth, db,
+            doc, getDoc, collection, query, where, limit, getDocs, onSnapshot, addDoc, updateDoc, serverTimestamp
+        } from "./firebase-config.js";
+
+        const API_URL = "/api";
+        let activeProjectId = null;
+
+        // Verify Authentication
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = "/login";
+                return;
+            }
+            await loadOnboardingData(user.uid);
+        });
+
+        // Load project specs
+        async function loadOnboardingData(userId) {
+            const q = query(collection(db, "projects"), where("userId", "==", userId), where("active", "==", true), limit(1));
+            const querySnapshot = await getDocs(q);
+
+            document.getElementById("loading-spinner").classList.add("hidden");
+            document.getElementById("onboarding-content").classList.remove("hidden");
+
+            if (querySnapshot.empty) {
+                window.location.href = "/dashboard";
+                return;
+            }
+
+            const projectDoc = querySnapshot.docs[0];
+            activeProjectId = projectDoc.id;
+            const project = projectDoc.data();
+
+            // Populate form fields with existing data
+            if (project.name) document.getElementById("website-name").value = project.name;
+            
+            const homepage = project.homepage_details ? JSON.parse(project.homepage_details) : {};
+            const styling = project.styling_references ? JSON.parse(project.styling_references) : {};
+            const content = project.content_data ? JSON.parse(project.content_data) : {};
+
+            if (homepage.menu_items) document.getElementById("menu-items").value = homepage.menu_items.join(", ");
+            if (homepage.hero_headline) document.getElementById("hero-headline").value = homepage.hero_headline;
+            if (homepage.hero_cta) document.getElementById("hero-cta").value = homepage.hero_cta;
+            if (homepage.middle_content) document.getElementById("middle-content").value = homepage.middle_content;
+            if (homepage.footer_text) document.getElementById("footer-text").value = homepage.footer_text;
+            
+            if (styling.theme) document.getElementById("styling-theme").value = styling.theme;
+            if (styling.reference_website) document.getElementById("reference-website").value = styling.reference_website;
+
+            if (content.home) document.getElementById("home-content").value = content.home;
+            if (content.about) document.getElementById("about-content").value = content.about;
+            if (content.team) document.getElementById("team-content").value = content.team;
+
+            // Set up real-time listener for onboarding chat messages
+            onSnapshot(collection(db, "projects", activeProjectId, "chat_messages"), (snapshot) => {
+                renderChat(snapshot);
+            });
+        }
+
+        // Render AI Onboarding Chat feed
+        function renderChat(snapshot) {
+            const chatDiv = document.getElementById("chat-messages");
+            let html = "";
+            
+            // Collect messages in array and order locally (or standard orderBy timestamp)
+            const msgs = [];
+            snapshot.forEach(doc => {
+                msgs.push({ id: doc.id, ...doc.data() });
+            });
+            // Sort by timestamp
+            msgs.sort((a,b) => (a.timestamp ? a.timestamp.seconds : 0) - (b.timestamp ? b.timestamp.seconds : 0));
+
+            msgs.forEach((msg) => {
+                const isUser = msg.sender === 'user';
+                html += `
+                    <div class="flex ${isUser ? 'justify-end' : 'justify-start'}">
+                        <div class="max-w-[80%] rounded-2xl p-3 text-xs ${isUser ? 'bg-[#FF4500] text-white rounded-br-none' : 'bg-[#030303] border border-[#343536] text-slate-300 rounded-bl-none'}">
+                            <span class="block font-bold text-[9px] text-slate-400 mb-1">${isUser ? 'You' : 'AI Assistant'}</span>
+                            <p>${msg.message.replace(/\n/g, "<br>")}</p>
+                        </div>
+                    </div>`;
+            });
+
+            chatDiv.innerHTML = html || `
+                <div class="text-center py-6 text-slate-500 text-2xs space-y-2">
+                    <i class="fa-solid fa-robot text-lg"></i>
+                    <p>No chat history. Ask me to write headlines, suggest layout styling, or outline navigation items!</p>
+                </div>`;
+            
+            // Auto scroll to bottom
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
+
+        // Action: Submit Form specs
+        document.getElementById("onboarding-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            const token = await auth.currentUser.getIdToken();
+            const body = {
+                website_name: document.getElementById("website-name").value,
+                menu_items: document.getElementById("menu-items").value,
+                hero_headline: document.getElementById("hero-headline").value,
+                hero_cta: document.getElementById("hero-cta").value,
+                middle_content: document.getElementById("middle-content").value,
+                styling_theme: document.getElementById("styling-theme").value,
+                reference_website: document.getElementById("reference-website").value,
+                home_content: document.getElementById("home-content").value,
+                about_content: document.getElementById("about-content").value,
+                team_content: document.getElementById("team-content").value
+            };
+
+            const res = await fetch(`${API_URL}/onboarding-submit`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(body)
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                window.location.href = "/dashboard";
+            } else {
+                alert(data.error || "Failed to submit specifications.");
+            }
+        });
+
+        // Action: Send AI Chat Message
+        document.getElementById("chat-input-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const input = document.getElementById("chat-input");
+            const message = input.value;
+            input.value = "";
+
+            // Write user message directly to Firestore (so it renders instantly)
+            const chatCol = collection(db, "projects", activeProjectId, "chat_messages");
+            await addDoc(chatCol, {
+                sender: "user",
+                message: message,
+                timestamp: serverTimestamp()
+            });
+
+            // Call Cloud Function API to trigger Gemini response
+            const token = await auth.currentUser.getIdToken();
+            const res = await fetch(`${API_URL}/chat`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ message })
+            });
+            const data = await res.json();
+            if (data.error) {
+                console.error("Gemini Assistant Failure: ", data.error);
+            }
+        });
+
+        // Global Copywriter Suggestion caller
+        window.suggestCopy = async function(field) {
+            const name = document.getElementById("website-name").value;
+            const theme = document.getElementById("styling-theme").value;
+            const container = document.getElementById(`${field}-suggestions`);
+            
+            if (!name) {
+                alert("Please enter a Website Name first to generate custom copy suggestions.");
+                return;
+            }
+
+            container.classList.remove("hidden");
+            container.innerHTML = `<span class="text-2xs text-slate-500"><i class="fa-solid fa-spinner animate-spin mr-1"></i> Asking AI...</span>`;
+
+            const token = await auth.currentUser.getIdToken();
+            const res = await fetch(`${API_URL}/api/suggest`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ field, name, theme })
+            });
+
+            const data = await res.json();
+            if (data.suggestions) {
+                let html = "";
+                data.suggestions.forEach(s => {
+                    html += `<button type="button" class="bg-[#030303] hover:bg-[#FF4500]/10 border border-[#343536] hover:border-[#FF4500] text-[10px] text-slate-300 hover:text-white px-2 py-1 rounded transition text-left" onclick="selectSuggestion('${field}', '${s.replace(/'/g, "\\'")}')">${s}</button>`;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<span class="text-2xs text-red-400">Failed to load suggestions.</span>`;
+            }
+        };
+
+        window.selectSuggestion = function(field, val) {
+            document.getElementById(field).value = val;
+            document.getElementById(`${field}-suggestions`).classList.add("hidden");
+        };
+    </script>
+</body>
+</html>

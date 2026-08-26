@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CentaurWeb</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030303;
+        }
+        /* Custom scrollbar and styling tweaks matching Reddit theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #343536;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF4500;
+        }
+    </style>
+</head>
+<body class="bg-[#030303] text-[#D7DADC] flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <nav class="border-b border-[#343536] bg-[#1A1A1B]/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] text-2xl"></i>
+                        <span class="font-bold text-xl tracking-tight text-white">Centaur<span class="text-[#FF4500]">Web</span></span>
+                    </a>
+                    <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-400 pl-8">
+                        <a href="/about" class="hover:text-white transition">About Us</a>
+                        <a href="/team" class="hover:text-white transition">Our Team</a>
+                        <a href="/contact" class="hover:text-white transition">Contact</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4" id="navbar-auth">
+                    <a href="/login" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-4 py-2 rounded-lg text-sm font-semibold transition">Client Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
+        <div class="max-w-5xl mx-auto py-10 space-y-12">
+            
+            <!-- Contact Header -->
+            <div class="text-center space-y-2 max-w-xl mx-auto">
+                <h1 class="text-4xl font-extrabold text-white">Let's Discuss Your Project</h1>
+                <p class="text-slate-400 text-sm">Have custom requirements or need backend integrations? Reach out to us below.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Left: Form (7 cols) -->
+                <div class="lg:col-span-7 bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 md:p-8 space-y-6">
+                    
+                    <div id="success-box" class="bg-green-500/10 border border-green-500/30 text-green-400 p-6 rounded-2xl space-y-2 hidden">
+                        <h4 class="font-bold text-md"><i class="fa-solid fa-circle-check mr-2"></i> Message Sent Successfully!</h4>
+                        <p class="text-xs text-green-300/80">Thank you for contacting CentaurWeb. A developer or coordinator will reach out to you via Email or WhatsApp within the next 2 hours.</p>
+                    </div>
+
+                    <form id="contact-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="text-2xs font-semibold text-slate-400 uppercase">Your Name</label>
+                                <input type="text" id="contact-name" required
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-2xs font-semibold text-slate-400 uppercase">Email Address</label>
+                                <input type="email" id="contact-email" required
+                                    class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-2xs font-semibold text-slate-400 uppercase">Project Type</label>
+                            <select id="contact-type" class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition">
+                                <option value="Standard Landing Page">Standard Landing Page ($99)</option>
+                                <option value="Custom Site / Backend">Custom Web App / Backend Integration</option>
+                                <option value="Other Query">Other Question / Consultation</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-2xs font-semibold text-slate-400 uppercase">Project Details / Message</label>
+                            <textarea id="contact-message" rows="5" required placeholder="Describe your business and website needs..."
+                                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-[#FF4500]/10">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: Info Panel (5 cols) -->
+                <div class="lg:col-span-5 space-y-6">
+                    
+                    <!-- Quick Contacts -->
+                    <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                        <h3 class="text-lg font-bold text-white">Agency Coordinates</h3>
+                        
+                        <div class="space-y-4 text-sm">
+                            <div class="flex items-start space-x-3">
+                                <i class="fa-solid fa-envelope text-[#FF4500] mt-1 text-md"></i>
+                                <div>
+                                    <span class="block font-semibold text-white">General Inquiries</span>
+                                    <a href="mailto:hello@centaurweb.com" class="text-slate-400 hover:text-white transition text-xs">hello@centaurweb.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <i class="fa-solid fa-comment-sms text-[#FF4500] mt-1 text-md"></i>
+                                <div>
+                                    <span class="block font-semibold text-white">WhatsApp Helpline</span>
+                                    <span class="text-slate-400 text-xs">+1 (555) 302-8902</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <i class="fa-solid fa-map-location-dot text-[#FF4500] mt-1 text-md"></i>
+                                <div>
+                                    <span class="block font-semibold text-white">HQ Office</span>
+                                    <p class="text-slate-400 text-xs leading-relaxed">
+                                        480 Broadway St, Suite 300<br>
+                                        San Francisco, CA 94133
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SME support card -->
+                    <div class="bg-indigo-950/20 border border-indigo-900/30 rounded-3xl p-6 space-y-3">
+                        <span class="text-3xs bg-[#FF4500]/20 text-[#FF8700] font-bold px-2 py-0.5 rounded uppercase">SME Hotline</span>
+                        <h4 class="font-bold text-white text-sm">Free consultation for small business startups</h4>
+                        <p class="text-slate-400 text-2xs leading-relaxed">Need help figuring out domain setup, logo assets, or page layout? Open a live ticket inside your cockpit or send us an email to set up a free phone consultation.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#343536] py-6 bg-[#030303] mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+            <p class="text-sm text-slate-500">&copy; 2026 CentaurWeb (Manual + AI) Agency. All rights reserved. Full ownership & No hidden charges.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK Logic -->
+    <script type="module">
+        import { auth, db, addDoc, collection, serverTimestamp } from "./firebase-config.js";
+        
+        // Auth State Check
+        auth.onAuthStateChanged(user => {
+            const authContainer = document.getElementById("navbar-auth");
+            if (user) {
+                authContainer.innerHTML = `
+                    <span class="text-slate-400 text-sm hidden md:inline">Logged in as <strong class="text-white">${user.displayName || user.email}</strong></span>
+                    <a href="/dashboard" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-4 py-2 rounded-lg text-sm font-semibold transition">Dashboard</a>
+                    <button id="logout-btn" class="text-slate-400 hover:text-white text-sm font-medium transition ml-2">Logout</button>
+                `;
+                document.getElementById("logout-btn").addEventListener("click", () => {
+                    auth.signOut().then(() => {
+                        window.location.reload();
+                    });
+                });
+            } else {
+                authContainer.innerHTML = `
+                    <a href="/login" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-4 py-2 rounded-lg text-sm font-semibold transition">Client Login</a>
+                `;
+            }
+        });
+
+        // Handle Form Submission directly to Firestore
+        document.getElementById("contact-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("contact-name").value;
+            const email = document.getElementById("contact-email").value;
+            const type = document.getElementById("contact-type").value;
+            const message = document.getElementById("contact-message").value;
+
+            try {
+                await addDoc(collection(db, "contact_messages"), {
+                    name,
+                    email,
+                    projectType: type,
+                    message,
+                    timestamp: serverTimestamp()
+                });
+                
+                document.getElementById("success-box").classList.remove("hidden");
+                document.getElementById("contact-form").reset();
+            } catch (err) {
+                alert("Failed to submit message: " + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
