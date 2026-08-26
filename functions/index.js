@@ -191,7 +191,7 @@ app.post('/onboarding-submit', async (req, res) => {
         }
 
         const homepage_details = {
-            menu_items: menu_items ? menu_items.split(",").map(i => i.strip()) : [],
+            menu_items: menu_items ? menu_items.split(",").map(i => i.trim()) : [],
             hero_headline,
             hero_cta,
             middle_content,
@@ -268,9 +268,9 @@ app.post('/chat', async (req, res) => {
             chat_history.push(doc.data());
         });
 
-        const homepage = project.homepage_details ? JSON.loads(project.homepage_details) : {};
-        const styling = project.styling_references ? JSON.loads(project.styling_references) : {};
-        const content = project.content_data ? JSON.loads(project.content_data) : {};
+        const homepage = project.homepage_details ? JSON.parse(project.homepage_details) : {};
+        const styling = project.styling_references ? JSON.parse(project.styling_references) : {};
+        const content = project.content_data ? JSON.parse(project.content_data) : {};
 
         let aiResponse = "AI Onboarding Assistant is not initialized. Key is missing.";
         const apiKey = getGeminiKey();
