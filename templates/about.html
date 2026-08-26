@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="space-y-16 py-10 max-w-4xl mx-auto">
+    
+    <!-- Hero Block -->
+    <div class="text-center space-y-4">
+        <span class="px-3 py-1 text-2xs font-semibold bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/20 rounded-full inline-block">OUR MISSION</span>
+        <h1 class="text-4xl font-extrabold text-white">We make starting online simple, fast, and free of hosting fees.</h1>
+        <p class="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
+            Traditional web agencies are slow, expensive, and charge hidden recurring server costs. We combine the power of AI requirement gathering with a network of over 100+ master manual developers to build standard-compliant websites at lightning speed.
+        </p>
+    </div>
+
+    <!-- The Centaur Model -->
+    <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 space-y-6">
+        <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-code-merge text-[#FF4500] mr-2"></i> The Centaur Model (Manual + AI)</h2>
+        <p class="text-slate-300 text-sm leading-relaxed">
+            In chess, a **Centaur** is a team combining a human player and a computer engine. By combining the two, they make fewer mistakes than a machine or human playing alone. 
+        </p>
+        <p class="text-slate-300 text-sm leading-relaxed">
+            We apply this exact philosophy to web design. Our **AI coordinator** handles the requirements gathering, copy drafting, and outline mapping so you don't need a technical spec writer. Then, our **manual developer network** takes over to hand-craft high-performance HTML, CSS, and JS. No bloated site builders. Pure, fast, clean code.
+        </p>
+    </div>
+
+    <!-- Core Values -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <h3 class="font-bold text-white text-md">SME Support</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                We believe small businesses are the backbone of the economy. We waive hosting fees up to 100k visitors/mo to help local businesses launch risk-free.
+            </p>
+        </div>
+        <div class="space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                <i class="fa-solid fa-feather"></i>
+            </div>
+            <h3 class="font-bold text-white text-md">Bloat-free Code</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                Unlike page builders (WordPress, Wix, Webflow) that load megabytes of scripts, we build lightweight, SEO-friendly custom code.
+            </p>
+        </div>
+        <div class="space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                <i class="fa-solid fa-comments"></i>
+            </div>
+            <h3 class="font-bold text-white text-md">Transparent Pricing</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+                What you see is what you pay. No hidden renewal retainers, no forced subscription lock-ins. If you grow, you pay only standard cloud costs.
+            </p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

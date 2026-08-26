@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Visual Onboarding - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Back to Dashboard -->
+    <div class="flex justify-between items-center">
+        <a href="/dashboard" class="text-sm text-[#FF4500] hover:text-[#FF8700] font-semibold flex items-center space-x-1">
+            <i class="fa-solid fa-arrow-left"></i> <span>Back to Dashboard</span>
+        </a>
+        <span class="text-xs text-slate-500 uppercase tracking-widest"><i class="fa-solid fa-circle-question mr-1 text-[#FF4500]"></i> Interactive Guide Mode</span>
+    </div>
+
+    <!-- Onboarding Layout Split: Left (Form), Right (Interactive Mockup) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Form (7 cols) -->
+        <div class="lg:col-span-7 bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 md:p-8 space-y-6">
+            <div>
+                <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-file-signature text-[#FF4500] mr-2"></i> Design Your Website</h2>
+                <p class="text-slate-400 text-sm mt-1">Fill out the layout fields below. Hover over fields to highlight sections on the visual guide mockup (right).</p>
+            </div>
+
+            <form action="/onboarding-submit" method="POST" id="onboarding-form" class="space-y-6">
+                
+                <!-- 1. Brand Name & Theme -->
+                <div class="space-y-4 border-b border-[#343536] pb-6 group-input" data-target="mock-header">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">1. Brand Identity & Header</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Website / Brand Name</label>
+                            <input type="text" id="website_name" name="website_name" required value="{{ project.name }}"
+                                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Color Scheme / Design Style</label>
+                            <input type="text" id="styling_theme" name="styling_theme" value="{{ styling.theme or '' }}"
+                                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. Clean Sky Blue & White">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Navigation Menu Items (comma-separated)</label>
+                            <button type="button" onclick="triggerAIAssist('menu_items')" class="text-2xs bg-[#FF4500]/20 text-[#FF8700] hover:bg-[#FF4500] hover:text-white px-2 py-0.5 rounded transition">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-0.5"></i> AI Suggest
+                            </button>
+                        </div>
+                        <input type="text" id="menu_items" name="menu_items" value="{{ homepage.menu_items|join(', ') if homepage.menu_items else '' }}"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="Home, Services, Contact">
+                        <div id="suggestions-menu_items" class="hidden mt-2 p-3 bg-[#030303] border border-[#343536] rounded-xl space-y-2"></div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-400 uppercase">Inspiration Reference Link (Optional)</label>
+                        <input type="text" id="reference_website" name="reference_website" value="{{ styling.reference_website or '' }}"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. apple.com">
+                    </div>
+                </div>
+
+                <!-- 2. Hero Banner -->
+                <div class="space-y-4 border-b border-[#343536] pb-6 group-input" data-target="mock-hero">
+                    <h3 class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">2. Main Banner (Hero Section)</h3>
+                    
+                    <div class="space-y-1 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Hero Banner Headline</label>
+                            <button type="button" onclick="triggerAIAssist('hero_headline')" class="text-2xs bg-[#FF4500]/20 text-[#FF8700] hover:bg-[#FF4500] hover:text-white px-2 py-0.5 rounded transition">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-0.5"></i> AI Assist
+                            </button>
+                        </div>
+                        <input type="text" id="hero_headline" name="hero_headline" value="{{ homepage.hero_headline or '' }}"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. Restoring healthy smiles daily">
+                        <div id="suggestions-hero_headline" class="hidden mt-2 p-3 bg-[#030303] border border-[#343536] rounded-xl space-y-2"></div>
+                    </div>
+
+                    <div class="space-y-1 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Action Button Text (CTA)</label>
+                            <button type="button" onclick="triggerAIAssist('hero_cta')" class="text-2xs bg-[#FF4500]/20 text-[#FF8700] hover:bg-[#FF4500] hover:text-white px-2 py-0.5 rounded transition">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-0.5"></i> AI Assist
+                            </button>
+                        </div>
+                        <input type="text" id="hero_cta" name="hero_cta" value="{{ homepage.hero_cta or '' }}"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. Book Appointment">
+                        <div id="suggestions-hero_cta" class="hidden mt-2 p-3 bg-[#030303] border border-[#343536] rounded-xl space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Middle Sections -->
+                <div class="space-y-4 border-b border-[#343536] pb-6 group-input" data-target="mock-middle">
+                    <h3 class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">3. Main Content Sections</h3>
+
+                    <div class="space-y-1 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Features & Services description</label>
+                            <button type="button" onclick="triggerAIAssist('middle_content')" class="text-2xs bg-[#FF4500]/20 text-[#FF8700] hover:bg-[#FF4500] hover:text-white px-2 py-0.5 rounded transition">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-0.5"></i> AI Assist
+                            </button>
+                        </div>
+                        <textarea id="middle_content" name="middle_content" rows="3"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. 3 blocks: 1. Cleaning, 2. Root Canal, 3. Braces.">{{ homepage.middle_content or '' }}</textarea>
+                        <div id="suggestions-middle_content" class="hidden mt-2 p-3 bg-[#030303] border border-[#343536] rounded-xl space-y-2"></div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-400 uppercase">About Us Paragraph</label>
+                        <textarea id="about_content" name="about_content" rows="2"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300">{{ content.about or '' }}</textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-400 uppercase">Team Members / Bio Info</label>
+                        <textarea id="team_content" name="team_content" rows="2"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. Dr. John - Dentist">{{ content.team or '' }}</textarea>
+                    </div>
+                </div>
+
+                <!-- 4. Footer -->
+                <div class="space-y-4 group-input" data-target="mock-footer">
+                    <h3 class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">4. Bottom Footer</h3>
+                    
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-slate-400 uppercase">Footer copyright / address details</label>
+                        <input type="text" id="footer_text" name="footer_text" value="{{ homepage.footer_text or '' }}"
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500] transition-all duration-300" placeholder="e.g. &copy; 2026 Dentist Clinic. All rights reserved.">
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white font-bold py-3 rounded-xl transition shadow-lg shadow-[#FF4500]/10">
+                        Submit Details to Developer
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column: Visual Wireframe Mockup (5 cols) -->
+        <div class="lg:col-span-5 bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 flex flex-col space-y-6 h-[720px] sticky top-20">
+            <div>
+                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-desktop text-[#FF4500] mr-2"></i> Website Visual Guide</h3>
+                <p class="text-xs text-slate-400">See what sections you are editing. Highlights display dynamically.</p>
+            </div>
+
+            <!-- Web Layout Wireframe Mockup -->
+            <div class="flex-grow bg-[#030303] border border-[#343536] rounded-2xl p-4 flex flex-col space-y-3 relative overflow-hidden">
+                
+                <!-- Mock Header -->
+                <div id="mock-header" class="border border-[#343536] bg-[#1A1A1B]/60 rounded-lg p-3 flex justify-between items-center transition-all duration-350">
+                    <span class="font-bold text-2xs text-[#FF4500]" id="wireframe-logo">{{ project.name or 'Logo' }}</span>
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-2 bg-slate-800 rounded"></div>
+                        <div class="w-8 h-2 bg-slate-800 rounded"></div>
+                        <div class="w-8 h-2 bg-slate-800 rounded"></div>
+                    </div>
+                </div>
+
+                <!-- Mock Hero Banner -->
+                <div id="mock-hero" class="border border-[#343536] bg-[#1A1A1B]/30 rounded-lg p-8 flex flex-col items-center justify-center text-center space-y-3 transition-all duration-350 flex-grow max-h-52">
+                    <div class="w-full max-w-[80%] space-y-1">
+                        <div class="h-3 bg-slate-800 rounded mx-auto w-full" id="wireframe-headline"></div>
+                        <div class="h-2 bg-slate-800 rounded mx-auto w-3/4"></div>
+                    </div>
+                    <div class="h-6 w-20 bg-[#FF4500]/30 border border-indigo-600/50 rounded-md flex items-center justify-center" id="wireframe-cta">
+                        <span class="text-3xs text-[#FF4500] font-bold">Button</span>
+                    </div>
+                </div>
+
+                <!-- Mock Middle Content -->
+                <div id="mock-middle" class="border border-[#343536] bg-[#1A1A1B]/20 rounded-lg p-4 space-y-3 transition-all duration-350 flex-grow">
+                    <div class="h-3 bg-slate-850 rounded w-1/3"></div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="bg-[#1A1A1B]/50 border border-[#343536] p-2 rounded flex flex-col space-y-1">
+                            <div class="w-4 h-4 bg-[#FF4500]/20 rounded"></div>
+                            <div class="h-1 bg-slate-800 rounded w-full"></div>
+                            <div class="h-1 bg-slate-800 rounded w-1/2"></div>
+                        </div>
+                        <div class="bg-[#1A1A1B]/50 border border-[#343536] p-2 rounded flex flex-col space-y-1">
+                            <div class="w-4 h-4 bg-[#FF4500]/20 rounded"></div>
+                            <div class="h-1 bg-slate-800 rounded w-full"></div>
+                            <div class="h-1 bg-slate-800 rounded w-1/2"></div>
+                        </div>
+                        <div class="bg-[#1A1A1B]/50 border border-[#343536] p-2 rounded flex flex-col space-y-1">
+                            <div class="w-4 h-4 bg-[#FF4500]/20 rounded"></div>
+                            <div class="h-1 bg-slate-800 rounded w-full"></div>
+                            <div class="h-1 bg-slate-800 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mock Footer -->
+                <div id="mock-footer" class="border border-[#343536] bg-[#1A1A1B]/60 rounded-lg p-3 flex justify-between items-center text-3xs text-slate-500 transition-all duration-350">
+                    <span id="wireframe-footer">&copy; footer details</span>
+                    <div class="w-10 h-2 bg-slate-800 rounded"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // 1. Interactive Mockup Highlighting Logic
+    const groupInputs = document.querySelectorAll('.group-input');
+    
+    groupInputs.forEach(group => {
+        const targetId = group.getAttribute('data-target');
+        const targetEl = document.getElementById(targetId);
+        const inputElements = group.querySelectorAll('input, textarea');
+
+        inputElements.forEach(input => {
+            // Highlight on Focus or MouseOver
+            const highlight = () => {
+                targetEl.classList.remove('border-[#343536]', 'bg-[#1A1A1B]/60', 'bg-[#1A1A1B]/30', 'bg-[#1A1A1B]/20');
+                targetEl.classList.add('border-indigo-500', 'bg-[#FF4500]/10', 'shadow-[0_0_15px_rgba(99,102,241,0.35)]', 'scale-[1.01]');
+            };
+
+            const removeHighlight = () => {
+                targetEl.classList.add('border-[#343536]');
+                targetEl.classList.remove('border-indigo-500', 'bg-[#FF4500]/10', 'shadow-[0_0_15px_rgba(99,102,241,0.35)]', 'scale-[1.01]');
+                
+                // restore specific subtle bg styles
+                if (targetId === 'mock-header' || targetId === 'mock-footer') {
+                    targetEl.classList.add('bg-[#1A1A1B]/60');
+                } else if (targetId === 'mock-hero') {
+                    targetEl.classList.add('bg-[#1A1A1B]/30');
+                } else if (targetId === 'mock-middle') {
+                    targetEl.classList.add('bg-[#1A1A1B]/20');
+                }
+            };
+
+            input.addEventListener('focus', highlight);
+            input.addEventListener('mouseenter', highlight);
+            input.addEventListener('blur', removeHighlight);
+            input.addEventListener('mouseleave', removeHighlight);
+        });
+    });
+
+    // 2. Real-time content mirrors to wireframe mockup
+    document.getElementById('website_name').addEventListener('input', (e) => {
+        document.getElementById('wireframe-logo').innerText = e.target.value || 'Logo';
+    });
+
+    // 3. AI Onboarding Suggestions AJAX Logic
+    async function triggerAIAssist(fieldName) {
+        const suggestionsBox = document.getElementById(`suggestions-${fieldName}`);
+        suggestionsBox.innerHTML = `
+            <div class="flex items-center space-x-2 text-2xs text-slate-500">
+                <i class="fa-solid fa-circle-notch animate-spin text-[#FF4500]"></i>
+                <span>Generating custom AI suggestions...</span>
+            </div>
+        `;
+        suggestionsBox.classList.remove('hidden');
+
+        const websiteName = document.getElementById('website_name').value;
+        const stylingTheme = document.getElementById('styling_theme').value;
+
+        const formData = new FormData();
+        formData.append('field', fieldName);
+        formData.append('name', websiteName || 'My New Business');
+        formData.append('theme', stylingTheme || 'Modern');
+
+        try {
+            const res = await fetch('/api/suggest', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                suggestionsBox.innerHTML = `
+                    <div class="text-2xs text-[#FF4500] font-bold uppercase tracking-wider mb-2">AI Suggestions:</div>
+                    <div class="space-y-1.5">
+                        ${data.suggestions.map(sug => `
+                            <div onclick="selectSuggestion('${fieldName}', '${escapeJS(sug)}')"
+                                 class="p-2 bg-[#1A1A1B] hover:bg-slate-800 border border-[#343536] hover:border-indigo-600 rounded-lg text-xs text-slate-200 cursor-pointer transition">
+                                ${sug}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                suggestionsBox.innerHTML = `<span class="text-xs text-red-400">API Key is required to compile AI suggestions. Please set GEMINI_API_KEY in server environment.</span>`;
+            }
+        } catch (err) {
+            suggestionsBox.innerHTML = `<span class="text-xs text-red-400">Connection error occurred.</span>`;
+        }
+    }
+
+    function selectSuggestion(fieldName, text) {
+        const input = document.getElementById(fieldName);
+        input.value = text;
+        // Trigger visual mockup updates
+        input.dispatchEvent(new Event('input'));
+        
+        // Hide suggestion box
+        document.getElementById(`suggestions-${fieldName}`).classList.add('hidden');
+    }
+
+    function escapeJS(str) {
+        return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
+</script>
+{% endblock %}

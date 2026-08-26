@@ -1,0 +1,556 @@
+{% extends "base.html" %}
+
+{% block title %}CentaurWeb - Flat $99 Handcrafted Web Design{% endblock %}
+
+{% block content %}
+<!-- Custom Animations Stylesheet -->
+<style>
+    @keyframes pulse-slow {
+        0%, 100% {
+            opacity: 0.7;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.08);
+        }
+    }
+    .animate-pulse-slow {
+        animation: pulse-slow 8s infinite ease-in-out;
+    }
+</style>
+
+<!-- Professional Landing Page - Reddit Dark Mode Color Palette & Style -->
+<div class="space-y-20 md:space-y-28 py-6 bg-[#030303] text-[#D7DADC] overflow-hidden">
+
+    <!-- Hero Section -->
+    <div class="text-center max-w-5xl mx-auto space-y-8 pt-2 md:pt-4 px-4 relative">
+        <!-- Premium Radial Glow Behind Hero (Animated) -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[200px] sm:h-[350px] bg-gradient-to-r from-[#FF4500]/10 to-indigo-500/10 rounded-full blur-[80px] sm:blur-[120px] -z-10 pointer-events-none animate-pulse-slow"></div>
+
+        <span class="px-4 py-1.5 text-xs font-semibold bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/20 rounded-full inline-flex items-center">
+            <i class="fa-solid fa-fire-flame-simple mr-2 text-xs animate-bounce"></i> Human-Assisted AI Web Development
+        </span>
+        
+        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.1] sm:leading-[1.05]">
+            AI Coded Sites Look Generic.<br>
+            <span class="bg-gradient-to-r from-[#FF4500] via-[#FF8700] to-yellow-400 bg-clip-text text-transparent">Go Hybrid. Human + AI.</span>
+        </h1>
+        
+        <p class="text-sm sm:text-base md:text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed font-light px-2">
+            Let’s face it. Pure AI website generators are fast, but the results are never 100% satisfying. They lack human touch, look generic, and break easily. We combine advanced AI prompt-mapping with a vetted network of **100+ manual developers** to deliver custom, lightweight code for a flat **$99 one-time**.
+        </p>
+
+        <!-- Main CTA and Actions -->
+        <div class="space-y-6 pt-4 px-2">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto sm:max-w-none">
+                <a href="/login" class="w-full sm:w-auto bg-[#FF4500] hover:bg-[#E03D00] text-white px-8 py-4 rounded-xl text-base font-bold shadow-lg shadow-[#FF4500]/20 transition duration-200 transform hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rocket animate-pulse"></i>
+                    <span>Launch Website For $99</span>
+                </a>
+                <a href="#features" class="w-full sm:w-auto border border-[#343536] bg-[#1A1A1B] hover:bg-slate-800 text-slate-200 hover:text-white px-8 py-4 rounded-xl text-base font-bold transition duration-200 flex items-center justify-center">
+                    See Key Features
+                </a>
+            </div>
+            
+            <!-- Trust markers below CTA -->
+            <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 pt-2 text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-widest">
+                <span class="flex items-center"><i class="fa-solid fa-circle-check text-[#FF4500] mr-1.5 text-sm"></i> Full Ownership</span>
+                <span class="flex items-center"><i class="fa-solid fa-circle-check text-[#FF4500] mr-1.5 text-sm"></i> No Hidden Charges</span>
+                <span class="flex items-center"><i class="fa-solid fa-bolt text-[#FF4500] mr-1.5 text-sm"></i> Loads Under 1 Second</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metrics Banner -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 max-w-5xl mx-auto border-y border-[#343536] py-8 my-4 text-center px-4">
+        <div class="space-y-1">
+            <span class="text-2xl sm:text-3xl md:text-4xl font-black text-white">100+</span>
+            <p class="text-[9px] md:text-3xs text-slate-500 uppercase tracking-widest font-semibold mt-1">Expert Human Coders</p>
+        </div>
+        <div class="space-y-1">
+            <span class="text-2xl sm:text-3xl md:text-4xl font-black text-[#FF4500]">100%</span>
+            <p class="text-[9px] md:text-3xs text-slate-500 uppercase tracking-widest font-semibold mt-1">Full Code Ownership</p>
+        </div>
+        <div class="space-y-1">
+            <span class="text-2xl sm:text-3xl md:text-4xl font-black text-white">Zero</span>
+            <p class="text-[9px] md:text-3xs text-slate-500 uppercase tracking-widest font-semibold mt-1">Monthly Platform Rent</p>
+        </div>
+        <div class="space-y-1">
+            <span class="text-2xl sm:text-3xl md:text-4xl font-black text-[#FF4500]">100k/mo</span>
+            <p class="text-[9px] md:text-3xs text-slate-500 uppercase tracking-widest font-semibold mt-1">Free Traffic Hosting</p>
+        </div>
+    </div>
+
+    <!-- The Problem & Solution Comparison Table (High-Trust Lead Magnet) -->
+    <div id="comparison" class="max-w-5xl mx-auto px-4 space-y-8 border-t border-[#343536] pt-16">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+            <span class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">The Honest Truth</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Why Pure AI Websites Fall Short</h2>
+            <p class="text-slate-400 text-xs">AI is a great assistant, but a terrible developer. Here's why our hybrid model wins:</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Pure AI -->
+            <div class="bg-[#1A1A1B]/40 border border-[#343536]/60 p-6 rounded-2xl space-y-4 opacity-75 hover:border-red-500/20 transition duration-300">
+                <h4 class="font-bold text-red-500 text-sm flex items-center uppercase"><i class="fa-solid fa-xmark mr-2"></i> Pure AI Generators</h4>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Generates templates in seconds but leaves bugs, clunky layout spacing, generic stock copy, and requires technical knowledge to host and maintain. Never feels 100% complete.
+                </p>
+            </div>
+            <!-- Pure Manual -->
+            <div class="bg-[#1A1A1B]/40 border border-[#343536]/60 p-6 rounded-2xl space-y-4 opacity-75 hover:border-yellow-500/20 transition duration-300">
+                <h4 class="font-bold text-yellow-500 text-sm flex items-center uppercase"><i class="fa-solid fa-clock mr-2"></i> Traditional Manual Agencies</h4>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Beautiful, handcrafted, and fast. However, custom development takes 3–6 weeks and costs upwards of $1,500+ due to project management overhead.
+                </p>
+            </div>
+            <!-- Human-Assisted AI (Hero) -->
+            <div class="bg-[#1A1A1B] border-2 border-[#FF4500] p-6 rounded-2xl space-y-4 shadow-[0_0_20px_rgba(255,73,0,0.06)] relative hover:border-[#FF5700] hover:shadow-[0_0_30px_rgba(255,73,0,0.12)] transition duration-300">
+                <span class="absolute -top-3 right-4 bg-[#FF4500] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">Best Approach</span>
+                <h4 class="font-bold text-green-500 text-sm flex items-center uppercase"><i class="fa-solid fa-circle-check mr-2"></i> Our Hybrid Model</h4>
+                <p class="text-slate-300 text-xs leading-relaxed font-normal">
+                    AI aggregates your requirements, drafts copywriting ideas, and structures code templates instantly. Then, our expert human coders manually audit, refine, style, and polish every pixel. Clean code, fast speed, Flat $99 one-time.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Features Grid (Clean Cards in Reddit Dark Colors) -->
+    <div id="features" class="space-y-16 max-w-6xl mx-auto px-4 border-t border-[#343536] pt-16">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="text-xs font-bold text-[#FF4500] uppercase tracking-widest text-center block">Built For Success</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white text-center">Everything You Need to Convert Visitors</h2>
+            <p class="text-slate-400 text-sm text-center">We don't use clunky page-builders. We write clean, semantic code that ranks and sells.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Code Ownership -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 md:p-8 rounded-2xl space-y-4 hover:border-[#FF4500]/50 hover:bg-[#272729] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,73,0,0.08)]">
+                <div class="w-10 h-10 rounded-xl bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Full Ownership & No Hidden Charges</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    You own the entire website source files (HTML, CSS, JS) 100%. Absolutely no monthly page-builder subscriptions, no hidden renewal fees, and no platform lock-ins. Save thousands in monthly site rent.
+                </p>
+            </div>
+
+            <!-- Free Hosting -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 md:p-8 rounded-2xl space-y-4 hover:border-[#FF4500]/50 hover:bg-[#272729] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,73,0,0.08)]">
+                <div class="w-10 h-10 rounded-xl bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                    <i class="fa-solid fa-server"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Zero Monthly Hosting Bills</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    We configure your custom code files to deploy to free static servers like **Render.com** or Netlify under your own free account. Save hundreds of dollars per year.
+                </p>
+            </div>
+
+            <!-- Security & SSL -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 md:p-8 rounded-2xl space-y-4 hover:border-[#FF4500]/50 hover:bg-[#272729] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,73,0,0.08)]">
+                <div class="w-10 h-10 rounded-xl bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Enterprise Security & SSL</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    We secure your custom domain with automatic SSL encryption (HTTPS). Build immediate search engine and customer trust with the secure padlock icon.
+                </p>
+            </div>
+
+            <!-- Speed & Google Rankings -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 md:p-8 rounded-2xl space-y-4 hover:border-[#FF4500]/50 hover:bg-[#272729] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,73,0,0.08)]">
+                <div class="w-10 h-10 rounded-xl bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">SEO & Speed Optimized</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Our human developers code manually without bloated framework scripts. Your landing page loads instantly (under 1 second), resulting in perfect SEO Lighthouse scores.
+                </p>
+            </div>
+
+            <!-- Visual Onboarding -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 md:p-8 rounded-2xl space-y-4 hover:border-[#FF4500]/50 hover:bg-[#272729] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,73,0,0.08)]">
+                <div class="w-10 h-10 rounded-xl bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Interactive Visual Dashboard</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    You don't need to be technical. Our onboarding dashboard lets you hover over input fields to see exactly where they appear on a visual mockup.
+                </p>
+            </div>
+
+            <!-- Vetted Professional Devs -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 md:p-8 rounded-2xl space-y-4 hover:border-[#FF4500]/50 hover:bg-[#272729] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,73,0,0.08)]">
+                <div class="w-10 h-10 rounded-xl bg-[#FF4500]/10 flex items-center justify-center text-[#FF4500] text-lg">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">100+ Professional Devs</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    No robots building templates. Real human experts (like Atul Kumar) audit, refine, and write your code to make sure your branding details look 100% correct.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="how-it-works" class="space-y-16 border-t border-[#343536] pt-16 max-w-6xl mx-auto px-4">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <span class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">Process</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Human-Assisted AI Flow</h2>
+            <p class="text-slate-400 text-sm">How we build and launch your landing page rapidly.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 rounded-xl space-y-4 hover:border-slate-700 transition duration-300">
+                <span class="text-xs text-[#FF4500] font-mono font-bold uppercase tracking-wider block">Step 01</span>
+                <h3 class="text-md font-bold text-white">Choose & Pay</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Complete your flat one-time payment. Credentials to enter your client portal are sent to your Email & WhatsApp instantly.
+                </p>
+            </div>
+
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 rounded-xl space-y-4 hover:border-slate-700 transition duration-300">
+                <span class="text-xs text-[#FF4500] font-mono font-bold uppercase tracking-wider block">Step 02</span>
+                <h3 class="text-md font-bold text-white">AI-Draft Inputs</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Provide basic business names. Click optional **AI Assist** buttons next to inputs to draft menu outlines and copy suggestions instantly.
+                </p>
+            </div>
+
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 rounded-xl space-y-4 hover:border-slate-700 transition duration-300">
+                <span class="text-xs text-[#FF4500] font-mono font-bold uppercase tracking-wider block">Step 03</span>
+                <h3 class="text-md font-bold text-white">Human Refinements</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Our manual developers take the specs, refine layouts, fix copywriting errors, and hand-code your custom landing page.
+                </p>
+            </div>
+
+            <div class="bg-[#1A1A1B] border border-[#343536] p-6 rounded-xl space-y-4 hover:border-slate-700 transition duration-300">
+                <span class="text-xs text-[#FF4500] font-mono font-bold uppercase tracking-wider block">Step 04</span>
+                <h3 class="text-md font-bold text-white">Deploy & Own</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    We link your custom domain, set up free SSL, and launch. Download your full code package files and own them forever.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Small Business Mission Section -->
+    <div class="bg-gradient-to-r from-red-950/10 to-slate-900/60 border border-[#343536] rounded-3xl p-6 md:p-10 max-w-5xl mx-auto space-y-6 flex flex-col md:flex-row items-center justify-between gap-8 mx-4">
+        <div class="space-y-4 max-w-2xl text-left">
+            <span class="px-2.5 py-1 text-2xs bg-[#FF4500]/20 text-[#FF4500] font-bold uppercase tracking-wider rounded">Supporting Small Businesses</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white leading-tight">Lowering Barriers to Entry for Local Businesses</h2>
+            <p class="text-slate-300 text-sm leading-relaxed font-light">
+                Getting a fast, professional website shouldn't eat up your startup capital or tie you to complex recurring bills. We coordinate a network of **over 100+ expert developers** using AI project matching to lower overhead and deliver custom enterprise code under $100.
+            </p>
+        </div>
+        <div class="w-full md:w-auto flex-shrink-0 bg-[#1A1A1B] border border-[#343536] p-6 rounded-2xl text-center space-y-3">
+            <i class="fa-solid fa-handshake-angle text-4xl text-[#FF4500] animate-bounce"></i>
+            <h4 class="font-bold text-white text-sm">Global Support Initiative</h4>
+            <span class="text-slate-400 font-mono text-2xs block">No Monthly Site Subscriptions.</span>
+        </div>
+    </div>
+
+    <!-- Core Team & 100+ Developer Network Section -->
+    <div id="team" class="space-y-8 border-t border-[#343536] pt-12 max-w-5xl mx-auto px-4">
+        <div class="text-center max-w-xl mx-auto space-y-2">
+            <span class="text-xs font-bold text-[#FF4500] uppercase tracking-widest block">Team & Network</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-white">Vetted Leads & 100+ Dev Network</h2>
+        </div>
+
+        <!-- Core Coordinators Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 max-w-5xl mx-auto">
+            
+            <!-- Atul Kumar -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-4 rounded-xl text-center space-y-3 hover:border-[#FF4500]/30 transition duration-300">
+                <div class="relative w-16 h-16 mx-auto">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100" alt="Atul Kumar" class="w-full h-full object-cover rounded-full border border-[#FF4500]/50">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-[#1A1A1B] animate-pulse"></span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs truncate">Atul Kumar</h3>
+                    <p class="text-[#FF4500] text-[9px] uppercase font-semibold tracking-wider">Lead Developer</p>
+                </div>
+                <p class="text-slate-400 text-[10px] leading-relaxed font-light">
+                    Converts specifications into lightweight, custom code.
+                </p>
+            </div>
+
+            <!-- Sarah Chen -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-4 rounded-xl text-center space-y-3 hover:border-[#FF4500]/30 transition duration-300">
+                <div class="relative w-16 h-16 mx-auto">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" alt="Sarah Chen" class="w-full h-full object-cover rounded-full border border-[#FF4500]/50">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-[#1A1A1B] animate-pulse"></span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs truncate">Sarah Chen</h3>
+                    <p class="text-[#FF4500] text-[9px] uppercase font-semibold tracking-wider">UX Architect</p>
+                </div>
+                <p class="text-slate-400 text-[10px] leading-relaxed font-light">
+                    Audits responsiveness, styling, and typography.
+                </p>
+            </div>
+
+            <!-- Michael Vance -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-4 rounded-xl text-center space-y-3 hover:border-[#FF4500]/30 transition duration-300">
+                <div class="relative w-16 h-16 mx-auto">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100" alt="Michael Vance" class="w-full h-full object-cover rounded-full border border-[#FF4500]/50">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-[#1A1A1B] animate-pulse"></span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs truncate">Michael Vance</h3>
+                    <p class="text-[#FF4500] text-[9px] uppercase font-semibold tracking-wider">SEO & Security</p>
+                </div>
+                <p class="text-slate-400 text-[10px] leading-relaxed font-light">
+                    Handles domain linking, SSL keys, and CDN routing.
+                </p>
+            </div>
+
+            <!-- Amina Diop -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-4 rounded-xl text-center space-y-3 hover:border-[#FF4500]/30 transition duration-300">
+                <div class="relative w-16 h-16 mx-auto">
+                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=100&h=100" alt="Amina Diop" class="w-full h-full object-cover rounded-full border border-[#FF4500]/50">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-[#1A1A1B] animate-pulse"></span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs truncate">Amina Diop</h3>
+                    <p class="text-[#FF4500] text-[9px] uppercase font-semibold tracking-wider">Cloud Infra</p>
+                </div>
+                <p class="text-slate-400 text-[10px] leading-relaxed font-light">
+                    Sets up high-speed serverless deploys and build pipelines.
+                </p>
+            </div>
+
+            <!-- Carlos Mendez -->
+            <div class="bg-[#1A1A1B] border border-[#343536] p-4 rounded-xl text-center space-y-3 hover:border-[#FF4500]/30 transition duration-300">
+                <div class="relative w-16 h-16 mx-auto">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=100&h=100" alt="Carlos Mendez" class="w-full h-full object-cover rounded-full border border-[#FF4500]/50">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-[#1A1A1B] animate-pulse"></span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-xs truncate">Carlos Mendez</h3>
+                    <p class="text-[#FF4500] text-[9px] uppercase font-semibold tracking-wider">Frontend Specialist</p>
+                </div>
+                <p class="text-slate-400 text-[10px] leading-relaxed font-light">
+                    Optimizes interactive components and Tailwind styling.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Vetted Developer Network Banner -->
+        <div class="bg-[#1A1A1B]/60 border border-[#343536]/80 rounded-xl p-4 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 hover:border-slate-800 transition duration-300">
+            <div class="flex items-center space-x-3">
+                <!-- Stacked Overlapping Face Avatars -->
+                <div class="flex -space-x-2 overflow-hidden">
+                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#1A1A1B] object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=60&h=60" alt="Dev face">
+                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#1A1A1B] object-cover" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=60&h=60" alt="Dev face">
+                    <img class="inline-block h-6 w-6 rounded-full ring-2 ring-[#1A1A1B] object-cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=60&h=60" alt="Dev face">
+                </div>
+                <div class="text-left space-y-0.5">
+                    <div class="flex items-center space-x-1">
+                        <span class="inline-block w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                        <span class="text-2xs font-bold text-white">100+ Vetted Coders Active</span>
+                    </div>
+                    <p class="text-slate-400 text-3xs leading-relaxed max-w-lg">
+                        AI pairs your requirements sheet with a developer who has built dozens of sites in your exact local industry.
+                    </p>
+                </div>
+            </div>
+            <div class="flex-shrink-0 w-full md:w-auto">
+                <span class="inline-block text-center border border-slate-700 bg-[#030303] text-[#D7DADC] font-mono px-3 py-1.5 rounded-lg text-3xs uppercase tracking-wider">
+                    Distributed network
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Pricing Section -->
+    <div id="packages" class="space-y-12 border-t border-[#343536] pt-16 max-w-4xl mx-auto px-4">
+        <div class="text-center space-y-2">
+            <span class="text-xs font-bold text-[#FF4500] uppercase tracking-widest">Pricing</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Transparent & Fixed Packages</h2>
+            <p class="text-slate-400">One-time payments. No monthly subscriptions, no lock-in.</p>
+        </div>
+
+        <div class="space-y-12">
+            
+            <!-- Hero Product Card (Standard Landing Page) -->
+            <div class="max-w-xl mx-auto">
+                <div class="bg-[#1A1A1B] border-2 border-[#FF4500] shadow-[0_0_40px_rgba(255,73,0,0.12)] rounded-3xl p-6 md:p-10 relative flex flex-col justify-between hover:border-[#FF5700] transition duration-300">
+                    <span class="absolute top-0 right-6 transform -translate-y-1/2 bg-[#FF4500] text-white text-2xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider"><i class="fa-solid fa-star mr-1"></i> Core Offer</span>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-white text-center">Handcrafted Business Landing Page</h3>
+                        <p class="text-slate-400 mt-2 text-center text-xs">Ideal for dentists, local service providers, consultants, cafes, and agencies.</p>
+                        
+                        <div class="mt-6 flex items-baseline justify-center text-white border-y border-[#343536] py-4">
+                            <span id="price-symbol" class="text-4xl md:text-5xl font-extrabold tracking-tight">$</span>
+                            <span id="price-amount" class="text-4xl md:text-5xl font-extrabold tracking-tight">99</span>
+                            <span class="ml-1 text-lg font-semibold text-slate-500">/one-time</span>
+                        </div>
+                        
+                        <ul class="mt-8 space-y-4 text-xs text-slate-300 max-w-sm mx-auto">
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-2.5 text-sm"></i> Custom HTML/CSS/Tailwind Build
+                            </li>
+                            <li class="flex items-center text-[#FF4500] font-semibold">
+                                <i class="fa-solid fa-gift text-[#FF4500] mr-2.5 text-sm animate-pulse"></i> Free Setup on your own Render.com / Vercel
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-2.5 text-sm"></i> Auto HTTPS / SSL Setup Included
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-2.5 text-sm"></i> Interactive Wireframe Onboarding
+                            </li>
+                            <li class="flex items-center font-medium">
+                                <i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] mr-2.5 text-sm"></i> AI-Powered Copywriter Support
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-2.5 text-sm"></i> Custom Domain Connection Linkage
+                            </li>
+                            <li class="flex items-center font-semibold text-white">
+                                <i class="fa-solid fa-clock text-[#FF4500] mr-2.5 text-sm"></i> Delivered in 4 to 7 Days
+                            </li>
+                            <li class="flex items-center font-semibold text-white">
+                                <i class="fa-solid fa-arrows-rotate text-[#FF4500] mr-2.5 text-sm"></i> 2 Design Revisions Included
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="/login" class="block w-full bg-[#FF4500] hover:bg-[#E03D00] text-center text-white py-4 rounded-xl font-bold transition shadow-lg shadow-[#FF4500]/20 flex items-center justify-center">
+                            Get Started Instantly
+                        </a>
+                        <p class="mt-4 text-center text-xs text-slate-500">
+                            Still confused? <a href="/contact" class="text-[#FF4500] hover:underline font-semibold">Schedule a meeting</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Systems & Free Consultation Split Card -->
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 max-w-4xl mx-auto hover:border-slate-800 transition duration-300">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x divide-[#343536]">
+                    
+                    <!-- Left Side: Backend Custom Quotes -->
+                    <div class="space-y-4 pr-0 md:pr-8 text-left">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-0.5 text-3xs bg-purple-500/20 text-purple-300 font-bold uppercase rounded"><i class="fa-solid fa-database mr-1"></i> Custom Backend</span>
+                            <span class="text-xs text-slate-500 font-medium">Logins & Databases</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Need logins, blogs, or booking forms?</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">
+                            If you require multi-page systems, database setups, or private servers, we provide custom developer quotes and transparent server bills.
+                        </p>
+                        <div class="pt-2">
+                            <a href="/login" class="inline-block text-center border border-slate-700 hover:border-slate-500 text-white font-semibold px-5 py-2.5 rounded-xl text-xs transition duration-200">
+                                Request Custom Quote
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Free Consultation meeting -->
+                    <div class="space-y-4 pl-0 md:pl-8 pt-6 md:pt-0 text-left">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-0.5 text-3xs bg-[#FF4500]/20 text-[#FF4500] font-bold uppercase rounded"><i class="fa-solid fa-comments mr-1"></i> Consultation</span>
+                            <span class="text-xs text-slate-500 font-medium">15-Min Free Call</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Still confused about how this works?</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed">
+                            Starting a web project is a big step. If you have questions about domain setup, hosting caps, or files backup, let's schedule a brief consultation.
+                        </p>
+                        <div class="pt-2">
+                            <a href="/contact" class="inline-flex items-center justify-center bg-[#FF4500] hover:bg-[#E03D00] text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-lg shadow-[#FF4500]/20 space-x-1.5">
+                                <i class="fa-solid fa-calendar-days text-xs"></i>
+                                <span>Schedule Free Call</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="space-y-12 border-t border-[#343536] pt-16 max-w-4xl mx-auto px-4">
+        <div class="text-center space-y-2">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+            <p class="text-slate-400 text-sm">Answers to help you trust our process.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs leading-relaxed">
+            <div class="space-y-2">
+                <h4 class="font-bold text-white text-sm">Why is Human-Assisted AI better than pure AI generators?</h4>
+                <p class="text-[#878A8C]">
+                    No doubt AI is generating content but not satisfying 100%. Pure AI generators write stock copy, generate broken layouts, and require coding skills to host. We use AI to speed up drafting and coding, but **real human developers manually audit, polish, and custom-code every pixel** to make sure your site looks premium and actually works.
+                </p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-white text-sm">Do I truly own the website?</h4>
+                <p class="text-[#878A8C]">
+                    Yes. Once the code is approved, we give you the source zip file (HTML, CSS, JS) and own it 100%. No platform lock-ins or hidden contracts. You can download it and host it anywhere in the world.
+                </p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-white text-sm">What happens if I need changes later?</h4>
+                <p class="text-[#878A8C]">
+                    You can log into your portal dashboard at any time to open a ticket. Minor text or image tweaks are free during setup. For ongoing updates after launch, you can hire us on a flexible minor maintenance retainer or update the clean code files yourself.
+                </p>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-white text-sm">Can I use my existing domain name?</h4>
+                <p class="text-[#878A8C]">
+                    Yes. During setup, you can provide your domain name. We provide the exact DNS records to configure in your GoDaddy, Namecheap, or Google Domains registrar to route your traffic securely with free SSL.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Price maps for currencies
+    const priceMap = {
+        'USD': { symbol: '$', amount: '99' },
+        'INR': { symbol: '₹', amount: '7,999' },
+        'EUR': { symbol: '€', amount: '89' },
+        'GBP': { symbol: '£', amount: '79' }
+    };
+
+    function changeCurrency(currencyCode) {
+        const data = priceMap[currencyCode];
+        if (data) {
+            document.getElementById('price-symbol').innerText = data.symbol;
+            document.getElementById('price-amount').innerText = data.amount;
+            document.getElementById('hero-price').innerText = data.symbol + data.amount;
+        }
+    }
+
+    // Auto-detect country/currency on load using IP API
+    async function autoDetectCurrency() {
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            if (response.ok) {
+                const data = await response.json();
+                const currency = data.currency;
+                
+                if (currency && priceMap[currency]) {
+                    changeCurrency(currency);
+                }
+            }
+        } catch (error) {
+            console.log("Failed to auto-detect country/currency. Using USD default.", error);
+        }
+    }
+
+    // Run detection on load
+    window.addEventListener('DOMContentLoaded', autoDetectCurrency);
+</script>
+{% endblock %}

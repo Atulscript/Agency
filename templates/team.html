@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Our Team - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="space-y-16 py-10 max-w-5xl mx-auto">
+
+    <!-- Team Header -->
+    <div class="text-center space-y-4 max-w-2xl mx-auto">
+        <span class="px-3 py-1 text-2xs font-semibold bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/20 rounded-full inline-block">OUR CREATIVE NETWORK</span>
+        <h1 class="text-4xl font-extrabold text-white">Vetted Designers, Developers & AI Engineers</h1>
+        <p class="text-slate-400 text-sm leading-relaxed">
+            We are backed by a global network of **over 100+ professional manual web developers** coordinating with our core product leadership. Meet the team coordinators driving your project:
+        </p>
+    </div>
+
+    <!-- Core Team Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <!-- Member 1: Atul Kumar -->
+        <div class="bg-[#1A1A1B] border border-[#343536] rounded-2xl overflow-hidden hover:border-slate-700 transition duration-300">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80" 
+                 alt="Atul Kumar" class="w-full h-56 object-cover object-center grayscale hover:grayscale-0 transition duration-500">
+            <div class="p-5 space-y-2">
+                <span class="text-3xs font-semibold text-[#FF4500] uppercase tracking-wider block">Lead Developer</span>
+                <h3 class="font-bold text-white text-lg">Atul Kumar</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    HTML/CSS and Tailwind expert. Hands-on coding coordinator supervising standard landing page deliveries.
+                </p>
+            </div>
+        </div>
+
+        <!-- Member 2: Sarah Chen -->
+        <div class="bg-[#1A1A1B] border border-[#343536] rounded-2xl overflow-hidden hover:border-slate-700 transition duration-300">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=400&q=80" 
+                 alt="Sarah Chen" class="w-full h-56 object-cover object-center grayscale hover:grayscale-0 transition duration-500">
+            <div class="p-5 space-y-2">
+                <span class="text-3xs font-semibold text-[#FF4500] uppercase tracking-wider block">Backend Architect</span>
+                <h3 class="font-bold text-white text-lg">Sarah Chen</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    FastAPI, Node, and database design specialist. Coordinates full-stack custom projects and deployments.
+                </p>
+            </div>
+        </div>
+
+        <!-- Member 3: Michael Vance -->
+        <div class="bg-[#1A1A1B] border border-[#343536] rounded-2xl overflow-hidden hover:border-slate-700 transition duration-300">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&h=400&q=80" 
+                 alt="Michael Vance" class="w-full h-56 object-cover object-center grayscale hover:grayscale-0 transition duration-500">
+            <div class="p-5 space-y-2">
+                <span class="text-3xs font-semibold text-[#FF4500] uppercase tracking-wider block">AI Workflow Engineer</span>
+                <h3 class="font-bold text-white text-lg">Michael Vance</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Architects our onboarding AI assistant models and developer prompt-generation pipelines.
+                </p>
+            </div>
+        </div>
+
+        <!-- Member 4: Amina Diop -->
+        <div class="bg-[#1A1A1B] border border-[#343536] rounded-2xl overflow-hidden hover:border-slate-700 transition duration-300">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&h=400&q=80" 
+                 alt="Amina Diop" class="w-full h-56 object-cover object-center grayscale hover:grayscale-0 transition duration-500">
+            <div class="p-5 space-y-2">
+                <span class="text-3xs font-semibold text-[#FF4500] uppercase tracking-wider block">QA & Performance lead</span>
+                <h3 class="font-bold text-white text-lg">Amina Diop</h3>
+                <p class="text-slate-400 text-xs leading-relaxed">
+                    Supervises code quality checks, page speeds, and SEO optimization before public website launches.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Network Callout -->
+    <div class="bg-indigo-950/20 border border-indigo-900/40 rounded-3xl p-8 text-center space-y-4">
+        <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-people-group text-[#FF4500] mr-2"></i> Our Developer Network</h3>
+        <p class="text-slate-300 text-sm max-w-2xl mx-auto leading-relaxed">
+            By running a decentralized hub of **100+ handpicked frontend developers** globally, we match your project to a specialist in your specific industry (restaurants, legal services, clinics, etc.) ensuring domain-specific styling.
+        </p>
+    </div>
+
+</div>
+{% endblock %}

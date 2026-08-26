@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-10 space-y-12">
+    
+    <!-- Contact Header -->
+    <div class="text-center space-y-2 max-w-xl mx-auto">
+        <h1 class="text-4xl font-extrabold text-white">Let's Discuss Your Project</h1>
+        <p class="text-slate-400 text-sm">Have custom requirements or need backend integrations? Reach out to us below.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left: Form (7 cols) -->
+        <div class="lg:col-span-7 bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 md:p-8 space-y-6">
+            
+            {% if success %}
+            <div class="bg-green-500/10 border border-green-500/30 text-green-400 p-6 rounded-2xl space-y-2">
+                <h4 class="font-bold text-md"><i class="fa-solid fa-circle-check mr-2"></i> Message Sent Successfully!</h4>
+                <p class="text-xs text-green-300/80">Thank you for contacting CentaurWeb. A developer or coordinator will reach out to you via Email or WhatsApp within the next 2 hours.</p>
+            </div>
+            {% endif %}
+
+            <form action="/contact" method="POST" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-2xs font-semibold text-slate-400 uppercase">Your Name</label>
+                        <input type="text" name="name" required
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-2xs font-semibold text-slate-400 uppercase">Email Address</label>
+                        <input type="email" name="email" required
+                            class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-2xs font-semibold text-slate-400 uppercase">Project Type</label>
+                    <select name="project_type" class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition">
+                        <option value="Standard Landing Page">Standard Landing Page ($299)</option>
+                        <option value="Custom Site / Backend">Custom Web App / Backend Integration</option>
+                        <option value="Other Query">Other Question / Consultation</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-2xs font-semibold text-slate-400 uppercase">Project Details / Message</label>
+                    <textarea name="message" rows="5" required placeholder="Describe your business and website needs..."
+                        class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF4500] transition"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-[#FF4500]/10">
+                    Send Message
+                </button>
+            </form>
+        </div>
+
+        <!-- Right: Info Panel (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+            
+            <!-- Quick Contacts -->
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                <h3 class="text-lg font-bold text-white">Agency Coordinates</h3>
+                
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-start space-x-3">
+                        <i class="fa-solid fa-envelope text-[#FF4500] mt-1 text-md"></i>
+                        <div>
+                            <span class="block font-semibold text-white">General Inquiries</span>
+                            <a href="mailto:hello@centaurweb.com" class="text-slate-400 hover:text-white transition text-xs">hello@centaurweb.com</a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <i class="fa-solid fa-comment-sms text-[#FF4500] mt-1 text-md"></i>
+                        <div>
+                            <span class="block font-semibold text-white">WhatsApp Helpline</span>
+                            <span class="text-slate-400 text-xs">+1 (555) 302-8902</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <i class="fa-solid fa-map-location-dot text-[#FF4500] mt-1 text-md"></i>
+                        <div>
+                            <span class="block font-semibold text-white">HQ Office</span>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                480 Broadway St, Suite 300<br>
+                                San Francisco, CA 94133
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SME support card -->
+            <div class="bg-indigo-950/20 border border-indigo-900/30 rounded-3xl p-6 space-y-3">
+                <span class="text-3xs bg-[#FF4500]/20 text-[#FF8700] font-bold px-2 py-0.5 rounded uppercase">SME Hotline</span>
+                <h4 class="font-bold text-white text-sm">Are you a registered SME?</h4>
+                <p class="text-slate-300 text-xs leading-relaxed">
+                    Make sure to mention it in your details! Our developers provide prioritised onboarding setup and coordinate custom DNS linkages free of charge to get your business live.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Login - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto my-12 bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 space-y-6">
+    <div class="text-center space-y-2">
+        <h2 class="text-2xl font-bold text-white">Client Portal Login</h2>
+        <p class="text-slate-400 text-sm">Access billing, onboarding, and issue tickets.</p>
+    </div>
+
+    {% if error %}
+    <div class="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl text-sm flex items-center">
+        <i class="fa-solid fa-triangle-exclamation mr-3 text-lg"></i>
+        <span>{{ error }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Helper box for testing -->
+    <div class="bg-[#FF4500]/10 border border-[#FF4500]/20 rounded-xl p-4 text-xs text-[#FF4500] space-y-1">
+        <strong class="text-white uppercase"><i class="fa-solid fa-circle-info mr-1"></i> Demo Credentials:</strong>
+        <div class="flex justify-between">
+            <span>Client: <code class="bg-[#030303] px-1 rounded text-white">client</code> / <code class="bg-[#030303] px-1 rounded text-white">client123</code></span>
+            <span>Admin/Dev: <code class="bg-[#030303] px-1 rounded text-white">admin</code> / <code class="bg-[#030303] px-1 rounded text-white">admin123</code></span>
+        </div>
+    </div>
+
+    <form action="/login" method="POST" class="space-y-4">
+        <div class="space-y-1">
+            <label for="username" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Username</label>
+            <input type="text" id="username" name="username" required
+                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+        </div>
+        <div class="space-y-1">
+            <label for="password" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Password</label>
+            <input type="password" id="password" name="password" required
+                class="w-full bg-[#030303] border border-[#343536] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#FF4500] transition">
+        </div>
+        <button type="submit"
+            class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-[#FF4500]/20">
+            Sign In
+        </button>
+    </form>
+</div>
+{% endblock %}

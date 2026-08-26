@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[#343536] pb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-white">Client Dashboard</h1>
+            <p class="text-slate-400 text-sm">Manage your project, tickets, and hosting config.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+            <span class="text-xs uppercase tracking-wider font-semibold text-slate-500">Project Status:</span>
+            <span class="px-3 py-1 text-xs font-bold rounded-full bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/20">
+                {{ project.status }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-6">Workflow Progress</h3>
+        
+        <div class="relative flex items-center justify-between">
+            <!-- Progress Line -->
+            <div class="absolute left-0 right-0 h-1 bg-slate-800 top-1/2 transform -translate-y-1/2 -z-0"></div>
+            {% set s = project.status %}
+            
+            <div class="z-10 flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs {% if s != 'Payment Pending' %}bg-green-600 text-white{% else %}bg-[#FF4500] text-white animate-pulse{% endif %}">
+                    {% if s != 'Payment Pending' %}<i class="fa-solid fa-check"></i>{% else %}1{% endif %}
+                </div>
+                <span class="text-xs mt-2 text-white font-medium">Payment</span>
+            </div>
+
+            <div class="z-10 flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs {% if s in ['In Progress', 'Review', 'Completed'] %}bg-green-600 text-white{% elif s == 'Requirements Gathering' %}bg-[#FF4500] text-white animate-pulse{% else %}bg-slate-800 text-slate-400{% endif %}">
+                    {% if s in ['In Progress', 'Review', 'Completed'] %}<i class="fa-solid fa-check"></i>{% else %}2{% endif %}
+                </div>
+                <span class="text-xs mt-2 text-slate-400 font-medium">Onboarding</span>
+            </div>
+
+            <div class="z-10 flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs {% if s in ['Review', 'Completed'] %}bg-green-600 text-white{% elif s == 'In Progress' %}bg-[#FF4500] text-white animate-pulse{% else %}bg-slate-800 text-slate-400{% endif %}">
+                    {% if s in ['Review', 'Completed'] %}<i class="fa-solid fa-check"></i>{% else %}3{% endif %}
+                </div>
+                <span class="text-xs mt-2 text-slate-400 font-medium">Building</span>
+            </div>
+
+            <div class="z-10 flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs {% if s == 'Completed' %}bg-green-600 text-white{% elif s == 'Review' %}bg-[#FF4500] text-white animate-pulse{% else %}bg-slate-800 text-slate-400{% endif %}">
+                    {% if s == 'Completed' %}<i class="fa-solid fa-check"></i>{% else %}4{% endif %}
+                </div>
+                <span class="text-xs mt-2 text-slate-400 font-medium">Review</span>
+            </div>
+
+            <div class="z-10 flex flex-col items-center">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs {% if s == 'Completed' %}bg-green-600 text-white{% else %}bg-slate-800 text-slate-400{% endif %}">
+                    {% if s == 'Completed' %}<i class="fa-solid fa-rocket"></i>{% else %}5{% endif %}
+                </div>
+                <span class="text-xs mt-2 text-slate-400 font-medium">Launched</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Project Onboarding & Control Panel -->
+        <div class="lg:col-span-2 space-y-8">
+            {% if project.status == 'Payment Pending' %}
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 text-center space-y-6">
+                <div class="w-16 h-16 bg-yellow-500/10 text-yellow-500 rounded-full flex items-center justify-center text-3xl mx-auto">
+                    <i class="fa-solid fa-credit-card"></i>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-bold text-white">Payment Required</h3>
+                    <p class="text-slate-400 max-w-md mx-auto">
+                        To unlock the AI onboarding assistant and request your website setup, please complete your project setup payment.
+                    </p>
+                </div>
+                <form action="/simulate-payment" method="POST">
+                    <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-[#FF4500]/10">
+                        Simulate Payment ($99)
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-8 space-y-6">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Project Details & Requirements</h3>
+                        <p class="text-slate-400 text-sm mt-1">Submit styling preferences, references, and consult the AI onboarding bot.</p>
+                    </div>
+                    <a href="/onboarding" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>{% if project.status == 'Requirements Gathering' %}Start Onboarding{% else %}View/Update Specs{% endif %}</span>
+                    </a>
+                </div>
+
+                <div class="border-t border-[#343536] pt-6 grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                        <span class="text-slate-500 font-semibold block uppercase text-xs">Website Name</span>
+                        <span class="text-white mt-1 block font-medium">{{ project.name }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 font-semibold block uppercase text-xs">Staging Preview</span>
+                        {% if project.github_repo_url %}
+                            <a href="{{ project.github_repo_url }}" target="_blank" class="text-[#FF4500] hover:underline mt-1 block font-medium">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-1 text-xs"></i> View Preview
+                            </a>
+                        {% else %}
+                            <span class="text-slate-400 mt-1 block font-medium">Not assembled yet</span>
+                        {% endif %}
+                    </div>
+                    {% if project.status == 'Completed' %}
+                    <div class="col-span-2 md:col-span-1">
+                        <span class="text-slate-500 font-semibold block uppercase text-xs mb-1">Source Code Files</span>
+                        <a href="/project/download-zip" class="bg-[#FF4500] hover:bg-[#E03D00] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition inline-flex items-center space-x-1.5 shadow-lg shadow-[#FF4500]/10">
+                            <i class="fa-solid fa-file-zipper"></i>
+                            <span>Download Website (.ZIP)</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Client-owned hosting disclaimer -->
+                <div class="bg-[#030303] border border-[#343536] rounded-xl p-4 text-xs text-slate-400">
+                    <span class="font-bold text-[#FF4500] uppercase tracking-wider block mb-1">
+                        <i class="fa-solid fa-server mr-1"></i> Hosting & Deployment Setup
+                    </span>
+                    We do not host your website on our servers. You have **100% full code ownership**. Once completed, download your code package ZIP file. You can host it for free on your own **Render.com**, Netlify, or Vercel account. Our developers provide complete configuration support to map your custom domain and SSL keys free of charge.
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Revisions & Approvals Panel -->
+            {% if project.status in ['Review', 'Completed'] %}
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-arrows-rotate text-[#FF4500] mr-2"></i> Client Review & Approval</h3>
+                    <span class="px-2.5 py-1 text-2xs bg-[#FF4500]/10 text-[#FF4500] border border-[#FF4500]/20 rounded font-semibold uppercase">Revisions Left: {{ project.revisions_left }}</span>
+                </div>
+
+                {% if project.status == 'Review' %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#030303] border border-[#343536] p-6 rounded-2xl">
+                    <!-- Column 1: Accept -->
+                    <div class="space-y-3 text-left">
+                        <h4 class="font-bold text-white text-sm">Approve Design</h4>
+                        <p class="text-slate-400 text-2xs leading-relaxed">If you are 100% satisfied with the work, accept the completion to finalise domain mapping and download package files.</p>
+                        <form action="/project/accept" method="POST">
+                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                                <i class="fa-solid fa-circle-check mr-1"></i> Accept Completion
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Column 2: Revision -->
+                    <div class="space-y-3 text-left border-t md:border-t-0 md:border-l border-[#343536] pt-4 md:pt-0 md:pl-6">
+                        <h4 class="font-bold text-white text-sm">Request Revision</h4>
+                        {% if project.revisions_left > 0 %}
+                        <p class="text-slate-400 text-2xs leading-relaxed mb-2">Describe modifications needed (spacing, colors, typos). Atul Kumar will implement your feedback.</p>
+                        <form action="/project/revision" method="POST" class="space-y-2">
+                            <textarea name="feedback" required placeholder="Describe changes needed..." rows="2"
+                                class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-2xs text-white focus:outline-none focus:border-[#FF4500]"></textarea>
+                            <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-bold px-4 py-2 rounded-lg transition">
+                                Submit Revision Request
+                            </button>
+                        </form>
+                        {% else %}
+                        <p class="text-red-400 text-2xs leading-relaxed">No revisions remaining. Reach out to developer via Support tickets for minor queries.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if project.status == 'Completed' %}
+                <div class="bg-[#030303] border border-[#343536] p-6 rounded-2xl space-y-4">
+                    <h4 class="font-bold text-white text-sm flex items-center"><i class="fa-solid fa-wand-magic-sparkles text-[#FF4500] mr-2"></i> Request Post-Launch Changes</h4>
+                    <p class="text-slate-400 text-2xs leading-relaxed">Since the project is finalized, any new feature edits or text modifications will be created as post-launch change tickets.</p>
+                    <form action="/project/request-change" method="POST" class="space-y-3">
+                        <textarea name="change_description" required placeholder="Describe what you want to change..." rows="2"
+                            class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-2xs text-white focus:outline-none focus:border-[#FF4500]"></textarea>
+                        <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-bold px-5 py-2.5 rounded-xl transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-arrows-spin"></i>
+                            <span>Request Post-Launch Change</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Support Tickets -->
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                <h3 class="text-xl font-bold text-white"><i class="fa-solid fa-circle-question text-[#FF4500] mr-2"></i> Support Tickets</h3>
+                
+                <form action="/tickets/create" method="POST" class="space-y-4 bg-[#030303] border border-[#343536] p-4 rounded-2xl">
+                    <h4 class="text-sm font-bold text-white">Create a New Issue Ticket</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="title" placeholder="Issue Title (e.g. Change logo alignment)" required
+                            class="bg-[#1A1A1B] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500]">
+                        <input type="text" name="description" placeholder="Description of details" required
+                            class="bg-[#1A1A1B] border border-[#343536] rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-[#FF4500]">
+                    </div>
+                    <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-xs font-semibold px-4 py-2 rounded-lg transition">
+                        Submit Ticket
+                    </button>
+                </form>
+
+                <div class="space-y-2 max-h-60 overflow-y-auto">
+                    {% for ticket in tickets %}
+                    <div class="flex items-center justify-between bg-[#030303] border border-[#343536] p-4 rounded-xl">
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-500">{{ ticket.created_at }}</span>
+                            <h4 class="font-bold text-sm text-white">{{ ticket.title }}</h4>
+                            <p class="text-xs text-slate-400">{{ ticket.description }}</p>
+                        </div>
+                        <span class="px-2 py-1 text-2xs font-bold rounded {% if ticket.status == 'Open' %}bg-yellow-500/10 text-yellow-500{% else %}bg-green-500/10 text-green-500{% endif %}">
+                            {{ ticket.status }}
+                        </span>
+                    </div>
+                    {% else %}
+                    <p class="text-sm text-slate-500 text-center py-4">No support tickets created yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Sidebar Billing Info -->
+        <div class="space-y-8">
+            <!-- Initiate New Project (If completed) -->
+            {% if project.status == 'Completed' %}
+            <div class="bg-gradient-to-r from-red-950/20 to-slate-900/40 border border-[#343536] rounded-3xl p-6 space-y-4">
+                <div class="space-y-1">
+                    <h4 class="font-bold text-white text-md flex items-center"><i class="fa-solid fa-rocket text-[#FF4500] mr-2"></i> Website Completed!</h4>
+                    <p class="text-slate-400 text-xs">Congratulations! Your website is launched. Do you need another custom landing page built?</p>
+                </div>
+                <form action="/project/new" method="POST">
+                    <button type="submit" class="w-full bg-[#FF4500] hover:bg-[#E03D00] text-white px-5 py-3 rounded-xl text-xs font-bold transition shadow-lg shadow-[#FF4500]/20 flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Start A New Project</span>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-receipt text-[#FF4500] mr-2"></i> Invoices & Bills</h3>
+                <div class="space-y-4">
+                    {% for inv in invoices %}
+                    <div class="flex justify-between items-center text-sm border-b border-[#343536] pb-3">
+                        <div>
+                            <span class="block font-medium text-white">Project Setup & Design</span>
+                            <span class="text-slate-500 text-xs">Inv #CW-{{ inv.id + 1000 }}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-white">${{ inv.amount }}</span>
+                            <span class="text-2xs font-bold text-green-500">PAID</span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <!-- If unpaid/pending -->
+                    {% if project.status == 'Payment Pending' %}
+                    <div class="flex justify-between items-center text-sm border-b border-[#343536] pb-3">
+                        <div>
+                            <span class="block font-medium text-white">Project Setup & Design</span>
+                            <span class="text-slate-500 text-xs">Inv #CW-Pending</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-white">$99.00</span>
+                            <span class="text-2xs font-bold text-yellow-500">UNPAID</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    
+                    <div class="flex justify-between items-center text-sm">
+                        <div>
+                            <span class="block font-medium text-white">Static GitHub Pages Hosting</span>
+                            <span class="text-slate-500 text-xs">Subscription</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block font-bold text-[#FF4500]">FREE</span>
+                            <span class="text-2xs font-bold text-green-500">ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

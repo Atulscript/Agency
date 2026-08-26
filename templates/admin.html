@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Developer Admin Panel - CentaurWeb{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    
+    <!-- Admin Header -->
+    <div class="flex justify-between items-center border-b border-[#343536] pb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-white">Developer Admin Dashboard</h1>
+            <p class="text-slate-400 text-sm">Review client requests, generate developer prompts, and deploy static sites to GitHub Pages.</p>
+        </div>
+        <span class="px-3 py-1 bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold rounded-full uppercase tracking-wider">
+            Admin Access
+        </span>
+    </div>
+
+    <!-- Alert Message for Github Pages Deployment -->
+    {% if request.session.get('deploy_message') %}
+    <div class="p-4 rounded-xl border flex items-start space-x-3 {% if request.session.get('deploy_success') %}bg-green-500/10 border-green-500/30 text-green-400{% else %}bg-red-500/10 border-red-500/30 text-red-400{% endif %}">
+        <i class="fa-solid {% if request.session.get('deploy_success') %}fa-circle-check{% else %}fa-circle-xmark{% endif %} text-lg mt-0.5"></i>
+        <div class="flex-grow">
+            <h4 class="font-bold text-sm">Deployment Outcome</h4>
+            <p class="text-xs mt-1">{{ request.session.get('deploy_message') }}</p>
+        </div>
+    </div>
+    <!-- Clear session keys so notice doesn't persist forever -->
+    {% set _ = request.session.pop('deploy_message', None) %}
+    {% set _ = request.session.pop('deploy_success', None) %}
+    {% endif %}
+
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        
+        <!-- Left Side: Project List & Specs (2 cols) -->
+        <div class="xl:col-span-2 space-y-8">
+            
+            {% for proj in projects %}
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                <!-- Project info header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#343536] pb-4">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Client: {{ proj.username }} ({{ proj.email }})</span>
+                        <h3 class="text-xl font-bold text-white">{{ proj.name }}</h3>
+                    </div>
+                    
+                    <form action="/admin/update-status" method="POST" class="flex items-center space-x-2">
+                        <input type="hidden" name="project_id" value="{{ proj.id }}">
+                        <select name="status" class="bg-[#030303] border border-[#343536] rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#FF4500]">
+                            <option value="Payment Pending" {% if proj.status == 'Payment Pending' %}selected{% endif %}>Payment Pending</option>
+                            <option value="Requirements Gathering" {% if proj.status == 'Requirements Gathering' %}selected{% endif %}>Requirements Gathering</option>
+                            <option value="In Progress" {% if proj.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Review" {% if proj.status == 'Review' %}selected{% endif %}>Review</option>
+                            <option value="Completed" {% if proj.status == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                        <button type="submit" class="bg-[#FF4500] hover:bg-[#E03D00] text-white text-2xs font-bold px-3 py-1.5 rounded-lg transition">Update</button>
+                    </form>
+                </div>
+
+                <!-- AI Developer Prompt generated -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-[#FF4500] uppercase tracking-wider"><i class="fa-solid fa-code mr-1"></i> AI-Compiled Developer Prompt</span>
+                        <span class="text-2xs text-slate-500">(Generated based on client questionnaire & chat logs)</span>
+                    </div>
+                    <div class="bg-[#030303] border border-[#343536] p-4 rounded-2xl max-h-48 overflow-y-auto">
+                        <pre class="text-2xs font-mono text-slate-300 whitespace-pre-wrap">{% if proj.developer_prompt %}{{ proj.developer_prompt }}{% else %}Onboarding details not completed yet. Once the user submits onboarding info, the AI compiles the prompt here.{% endif %}</pre>
+                    </div>
+                </div>
+
+                <!-- Deploy to GitHub Pages (Only if in Progress / Review / Completed) -->
+                {% if proj.status in ['In Progress', 'Review', 'Completed'] %}
+                <form action="/admin/deploy" method="POST" class="bg-[#030303] border border-[#343536] p-4 rounded-2xl space-y-4">
+                    <h4 class="text-sm font-bold text-white"><i class="fa-solid fa-cloud-arrow-up text-green-400 mr-1"></i> Deploy static page to GitHub Pages</h4>
+                    <input type="hidden" name="project_id" value="{{ proj.id }}">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-2xs font-semibold text-slate-400 uppercase">GitHub Personal Access Token (PAT)</label>
+                            <input type="password" name="github_token" required placeholder="github_pat_..."
+                                class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF4500]">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-2xs font-semibold text-slate-400 uppercase">Repository Name</label>
+                            <input type="text" name="repo_name" required placeholder="e.g. my-agency-site"
+                                class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF4500]">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-2xs font-semibold text-slate-400 uppercase">Manual HTML Code Content (index.html)</label>
+                        <textarea name="html_content" rows="6" required placeholder="Paste index.html page content here..."
+                            class="w-full bg-[#1A1A1B] border border-[#343536] rounded-xl px-3 py-2 text-xs font-mono text-slate-300 focus:outline-none focus:border-[#FF4500]"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ proj.name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans flex flex-col min-h-screen">
+    <!-- Deployed by Agency Platform -->
+    <header class="bg-white border-b py-6 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-[#FF4500]">{{ proj.name }}</h1>
+        </div>
+    </header>
+    
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
+        <h2 class="text-4xl font-extrabold tracking-tight">Welcome to {{ proj.name }}</h2>
+        <p class="text-lg text-slate-600">This website was generated and deployed using the CentaurWeb Platform.</p>
+        <div class="bg-slate-100 border p-6 rounded-xl text-left max-w-md mx-auto space-y-2">
+            <h3 class="font-bold text-sm text-slate-800 uppercase">Page info</h3>
+            <p class="text-xs text-slate-600"><strong>Status:</strong> Live</p>
+            <p class="text-xs text-slate-600"><strong>Traffic Cap:</strong> 100k views/month (Free Hosting)</p>
+        </div>
+    </main>
+</body>
+</html></textarea>
+                    </div>
+
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+                        Deploy & Enable GitHub Pages
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+            {% else %}
+            <p class="text-slate-500 py-12 text-center">No projects registered in system.</p>
+            {% endfor %}
+
+        </div>
+
+        <!-- Right Side: Tickets Management (1 col) -->
+        <div class="space-y-6">
+            <div class="bg-[#1A1A1B] border border-[#343536] rounded-3xl p-6 space-y-6">
+                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-tags text-[#FF4500] mr-2"></i> Client Support Tickets</h3>
+                
+                <div class="space-y-4 max-h-[600px] overflow-y-auto">
+                    {% for ticket in tickets %}
+                    <div class="bg-[#030303] border border-[#343536] p-4 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-3xs font-semibold text-slate-500 uppercase">{{ ticket.created_at }}</span>
+                                <h4 class="font-bold text-sm text-white mt-0.5">{{ ticket.title }}</h4>
+                                <span class="text-2xs text-[#FF4500] font-medium block">Project: {{ ticket.project_name }}</span>
+                            </div>
+                            <span class="px-2 py-0.5 text-3xs font-bold rounded {% if ticket.status == 'Open' %}bg-yellow-500/10 text-yellow-500{% else %}bg-green-500/10 text-green-500{% endif %}">
+                                {{ ticket.status }}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-400">{{ ticket.description }}</p>
+                        
+                        {% if ticket.status == 'Open' %}
+                        <form action="/admin/tickets/resolve" method="POST" class="pt-2 border-t border-slate-900">
+                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                            <button type="submit" class="bg-slate-800 hover:bg-slate-700 text-white text-3xs font-semibold px-3 py-1.5 rounded-lg transition">
+                                <i class="fa-solid fa-check mr-1 text-green-500"></i> Mark as Resolved
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <p class="text-xs text-slate-500 text-center py-6">No support tickets reported.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
