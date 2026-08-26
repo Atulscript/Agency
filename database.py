@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_PATH = "/data/agency.db" if os.path.exists("/data") and os.path.isdir("/data") else "agency.db"
+DB_PATH = "/data/agency.db" if os.path.exists("/data") and os.path.isdir("/data") and os.access("/data", os.W_OK) else "agency.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)
